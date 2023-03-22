@@ -1,7 +1,7 @@
 on:
   push
 
-name: ci
+name: postman
 
 jobs:
   ci:
