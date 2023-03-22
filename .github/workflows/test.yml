@@ -6,8 +6,7 @@ name: ci
 jobs:
   ci:
     runs-on: ubuntu-latest
-    container:
-      image: postman/newman:latest
+    
     steps:
     - uses: docker-practice/actions-setup-docker@master
     - run: |
