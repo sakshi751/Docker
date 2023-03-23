@@ -5,13 +5,14 @@ on:
 jobs:
   container-test-job:
     runs-on: ubuntu-latest
-      
+    
     steps:
       - name: Docker Buildx Pull or Build
         uses: djbender/docker-buildx-pull-or-build@v0.5
         with:
            docker_password: ${{ secrets.DOCKERHUB_USERNAME }}
            docker_username: ${{ secrets.DOCKERHUB_TOKEN }}
+           docker_registry: hub.docker.com
    
            # dockerfile: postman/newman:latest
     # The image name that this action will either 1) pull 2) build and push.
