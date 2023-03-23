@@ -7,16 +7,18 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-      - name: Docker Buildx Pull or Build
-        uses: djbender/docker-buildx-pull-or-build@v0.5
+      -
+        name: Login to Docker Hub
+        uses: docker/login-action@v2
         with:
-           docker_password: ${{ secrets.DOCKERHUB_USERNAME }}
-           docker_username: ${{ secrets.DOCKERHUB_TOKEN }}
-           docker_registry: hub.docker.com
-   
-           # dockerfile: postman/newman:latest
-    # The image name that this action will either 1) pull 2) build and push.
-           image: postman/newman:latest
-    # Optionally specify an image cache name. Default: `<image>:cache`
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      -
+        name: Build and push
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          pull: true
+          tags: postman/newman:latest
     
         
