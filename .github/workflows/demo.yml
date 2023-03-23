@@ -12,7 +12,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-          registry: gcr.io
           image: postman/newman:latest
           run: echo "hello world"
     
