@@ -5,9 +5,17 @@ on:
 jobs:
   container-test-job:
     runs-on: ubuntu-latest
-    container:
-      image: postman/newman:latest
+      
     steps:
-      - uses: actions/checkout@master
-      - name: Check for dockerenv file
-        run : docker --version
+      - name: Docker Buildx Pull or Build
+        uses: djbender/docker-buildx-pull-or-build@v0.5
+        with:
+           docker_password: ${{ secrets.DOCKERHUB_USERNAME }}
+           docker_username: ${{ secrets.DOCKERHUB_TOKEN }}
+   
+           # dockerfile: postman/newman:latest
+    # The image name that this action will either 1) pull 2) build and push.
+           image: postman/newman:latest
+    # Optionally specify an image cache name. Default: `<image>:cache`
+    
+        
