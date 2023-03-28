@@ -22,6 +22,5 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
           image: postman/newman:latest
          # run: newman run https://api.postman.com/collections/18008496-0c0e3091-3a0d-4243-bf3d-c89ddc7f8477?access_key=PMAT-01GW3WD2XJ1WEGY374FB44VV3B
-          run: |
-           newman run Weather-API.postman_collection.json
+          run: newman run ./test/Weather-API.postman_collection.json -e ./test/workspace.postman_globals.json
         
