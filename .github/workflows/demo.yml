@@ -1,20 +1,14 @@
-name: CI
+name: "Newman Tests"
 on:
   push:
     branches: [ main ]
+
 jobs:
-  container-test-job:
+  build:
     runs-on: ubuntu-latest
-    steps:   
-      - name: Install Node
-        uses: actions/setup-node@v1
-        with:
-          node-version: "12.x"
-      - uses: actions/checkout@v3
-      - uses: addnab/docker-run-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-          image: postman/newman:latest
-         # run: newman run https://api.postman.com/collections/18008496-0c0e3091-3a0d-4243-bf3d-c89ddc7f8477?access_key=PMAT-01GW3WD2XJ1WEGY374FB44VV3B
-          run: newman run Weather-API.postman_collection.json --folder test
+    container:
+      image: postman/newman
+    steps:
+      - uses: actions/checkout@v1
+      - name: Run API Tests
+        run: newman run ./test/Weather-API.postman_collection.json -e ./test/workspace.postman_globals.json
