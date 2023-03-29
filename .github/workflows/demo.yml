@@ -10,6 +10,9 @@ jobs:
       image: postman/newman
     steps:
       - uses: actions/checkout@v1
+      - name: Install html
+        run: npm install -g newman-reporter-htmlextra
+      - name: make directory for file
+        run: mkdir -p testResults
       - name: Run API Tests
-        run: newman run ./test/Weather-API.postman_collection.json 
-      - run: ls -lrt
+        run: newman run ./test/Weather-API.postman_collection.json -r htmlextra --reporter-htmlextra-export testResults/htmlReport.html
