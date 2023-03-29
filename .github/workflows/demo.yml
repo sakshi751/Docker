@@ -12,3 +12,4 @@ jobs:
       - uses: actions/checkout@v1
       - name: Run API Tests
         run: newman run ./test/Weather-API.postman_collection.json 
+      - run: ls -lrt
