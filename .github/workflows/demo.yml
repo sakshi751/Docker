@@ -14,6 +14,6 @@ jobs:
       - name: Run API Test
         run: newman run ./test/postman_collection_failure_case.json 
       - name: Req
-        run: |
+      - run: |
          echo ${{ fromJson(steps.myRequest.outputs.response) }}
       
