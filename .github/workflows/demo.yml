@@ -10,7 +10,10 @@ jobs:
       image: postman/newman
     steps:
       - uses: actions/checkout@v1
-      
+      - id: myRequest
       - name: Run API Test
         run: newman run ./test/postman_collection_failure_case.json 
+      - name: Req
+        run: |
+         echo ${{ fromJson(steps.myRequest.outputs.response) }}
       
