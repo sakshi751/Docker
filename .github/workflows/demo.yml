@@ -11,14 +11,11 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Install html
-        run: npm i newman-reporter-json-steps
+        run: npm i -g newman
+      - run: npm i -g @tmclnk/newman-reporter-json-stats
       - name: make directory for file
         run: mkdir -p testResults
       - name: Run API Tests
-        run: newman run ./test/Weather-API.postman_collection.json -r json-steps --reporter-summary-json-export testResults/jsonReport.json
+        run: newman run ./test/Weather-API.postman_collection.json --reporters @tmclnk/json-stats --verbose
        # Upload the contents of Test Results directory to workspace
-      - name: Output the run Details
-        uses: actions/upload-artifact@v2
-        with:
-          name: RunReports
-          path: testResults
+      
