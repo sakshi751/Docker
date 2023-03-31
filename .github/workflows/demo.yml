@@ -15,7 +15,7 @@ jobs:
       - name: make directory for file
         run: mkdir -p testResults
       - name: Run API Tests
-        run: newman run ./test/Weather-API.postman_collection.json -r json-summary --reporter-summary-json-export output
+        run: newman run -h
        # Upload the contents of Test Results directory to workspace
       - name: Output the run Details
         uses: actions/upload-artifact@v2
