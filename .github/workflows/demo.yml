@@ -10,15 +10,8 @@ jobs:
       image: postman/newman
     steps:
       - uses: actions/checkout@v1
-      - name: Install html
-        run: npm install -g newman-reporter-htmlextra
-      - name: make directory for file
-        run: mkdir -p testResults
+      
       - name: Run API Tests
-        run: newman run ./test/Weather-API.postman_collection.json -r htmlextra --reporter-htmlextra-export testResults/jsonReport.json
+        run: newman run ./test/Weather-API.postman_collection.json -r json-summary --reporter-summary-json-export output
        # Upload the contents of Test Results directory to workspace
-      - name: Output the run Details
-        uses: actions/upload-artifact@v2
-        with:
-          name: RunReports
-          path: testResults
+      
