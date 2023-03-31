@@ -10,8 +10,8 @@ jobs:
       image: postman/newman
     steps:
       - uses: actions/checkout@v1
-      - id: myRequest
       - name: Run API Test
+        id: myRequest
         run: newman run ./test/postman_collection_failure_case.json 
       - name: Req
       - run: |
