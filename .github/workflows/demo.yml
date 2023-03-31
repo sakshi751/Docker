@@ -10,9 +10,15 @@ jobs:
       image: postman/newman
     steps:
       - uses: actions/checkout@v1
-      - name: Install json
-        run: npm i newman-reporter-json-summary
+      - name: Install html
+        run: npm i newman-reporter-json-steps
+      - name: make directory for file
+        run: mkdir -p testResults
       - name: Run API Tests
-        run: newman run ./test/Weather-API.postman_collection.json -r json-summary --reporter-summary-json-export output
+        run: newman run ./test/Weather-API.postman_collection.json --reporters json-summary --reporter-summary-json-export testResults/jsonReport.json
        # Upload the contents of Test Results directory to workspace
-      
+      - name: Output the run Details
+        uses: actions/upload-artifact@v2
+        with:
+          name: RunReports
+          path: testResults
