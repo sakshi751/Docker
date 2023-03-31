@@ -11,6 +11,6 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       
-      - name: Run API Tests
+      - name: Run API Test
         run: newman run ./test/Weather-API.postman_collection.json 
       
