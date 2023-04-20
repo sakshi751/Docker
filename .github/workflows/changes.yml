@@ -24,4 +24,17 @@ jobs:
       - name: List all changed files
         run: |
             echo ${{ steps.changed-files.outputs.all_changed_files }}
+            
+      - name: Create Token
+        id: myRequest
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: 'https://980934bbtrial.authentication.us10.hana.ondemand.com/oauth/token?grant_type=client_credentials'
+          method: 'GET'
+          username: 'sb-171d2491-9b93-4eae-abe6-6b88d8fc3060!b143373|cas-uaa-prod!b6249'
+          password: 'vXuyMj14JOBq33lgp6XvYbG1uKo='
+          customHeaders: '{"Content-Type": "application/json"}'
+      - name: Show Token
+        run: |
+          echo ${{ steps.myRequest.outputs.response }}
  
