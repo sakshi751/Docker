@@ -37,4 +37,11 @@ jobs:
       - name: Show Token
         run: |
           echo ${{ steps.myRequest.outputs.response }}
+      - name: GET CALL
+        uses: fjogeleit/http-request-action@v1
+        with:
+          url: 'https://content-agent-engine.cfapps.us10.hana.ondemand.com/v1/contentResources/oauth/token?grant_type=client_credentials'
+          method: 'GET'
+          bearerToken: ${{ steps.myRequest.outputs.response }}
+          customHeaders: '{"Content-Type": "application/json"}'
  
