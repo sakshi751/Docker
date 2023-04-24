@@ -51,8 +51,8 @@ jobs:
       - name: GET CALL USING CURL
         id: getCallUsingCURL
         run: |   
-          curl -X POST https://reqbin.com/echo/post/json
-             -H 'Content-Type: application/json'
-             -H 'Accept: application/json'
-             -d '{"Id": 78912, "Quantity": 1, "Price": 19.00}'
+          curl --request GET \
+          --header 'authorization: Bearer ${{ fromJson(steps.myRequest.outputs.response).access_token }}' \
+          --header 'content-type: application/json' \
+          --url https://content-agent-engine.cfapps.us10.hana.ondemand.com/v1/contentResources?grant_type=client_credentials
 
