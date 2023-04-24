@@ -48,4 +48,11 @@ jobs:
       - name: GET CALL RESPONSE
         run: |
           echo ${{ steps.getCall.outputs.response }}
+      - name: GET CALL USING CURL
+        id: getCallUsingCURL
+        run: |   
+          curl https://reqbin.com/echo
+      - name: GET CALL USING CURL RESPONSE
+        run: |
+          echo ${{ steps.getCallUsingCURL.outputs.response }}
  
