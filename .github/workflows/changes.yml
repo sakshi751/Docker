@@ -52,7 +52,6 @@ jobs:
         id: getCallUsingCURL
         run: |   
           curl https://content-agent-engine.cfapps.us10.hana.ondemand.com/v1/contentResources?grant_type=client_credentials
-          -H 'Content-Type: application/json'
-          -H "Accept: application/json"
-          -H "Authorization: Bearer ${{ fromJson(steps.myRequest.outputs.response).access_token }}"
- 
+             -H "Accept: application/json"
+             -H "Authorization: Bearer ${{ fromJson(steps.myRequest.outputs.response).access_token }}"
+
