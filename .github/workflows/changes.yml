@@ -55,4 +55,10 @@ jobs:
           --header 'authorization: Bearer ${{ fromJson(steps.myRequest.outputs.response).access_token }}' \
           --header 'content-type: application/json' \
           --url https://content-agent-engine.cfapps.us10.hana.ondemand.com/v1/contentResources?grant_type=client_credentials
-
+      - name: get changed files
+        id: getfile
+        run: |
+          echo "::set-output name=files::$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | xargs)"
+      - name: echo output
+        run: |
+            echo ${{ steps.getfile.outputs.files }}
