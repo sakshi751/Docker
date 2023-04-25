@@ -16,4 +16,5 @@ jobs:
         set -x
         docker version 
         ls -lrt
-        docker run -t postman/newman run "test/postman_collection_failure_case.json"
+        cd test
+        docker run -t postman/newman run "postman_collection_failure_case.json"
