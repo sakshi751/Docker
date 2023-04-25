@@ -23,7 +23,7 @@ jobs:
           name: RunReports
           path: testResults
       - name: postman  
-      - uses: addnab/docker-run-action@v3
+        uses: addnab/docker-run-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
