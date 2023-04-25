@@ -15,5 +15,4 @@ jobs:
     - run: |
         set -x
         docker version 
-        
-        docker run -t postman/newman run "Weather_postman_collection.json"
+        docker run -t postman/newman run ./test/Weather-API.postman_collection.json
