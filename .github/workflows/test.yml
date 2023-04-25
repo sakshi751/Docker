@@ -15,4 +15,4 @@ jobs:
     - run: |
         set -x
         docker version 
-        docker run -t postman/newman run "Weather.postman_collection.json"
+        docker run -t postman/newman run "./workflows/Weather.postman_collection.json"
