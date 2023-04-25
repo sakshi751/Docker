@@ -28,5 +28,5 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
           image: postman/newman:latest
-          run: newman run /test/Weather-API.postman_collection.json
+          run: newman run "Weather_postman_collection.json"
 
