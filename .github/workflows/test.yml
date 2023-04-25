@@ -13,4 +13,4 @@ jobs:
         set -x
 
         docker version 
-        docker run -t postman/newman run ./test/postman_collection_failure_case.json
+        docker run -t postman/newman run "Weather.postman_collection.json"
