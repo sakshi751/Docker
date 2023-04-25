@@ -15,7 +15,5 @@ jobs:
     - run: |
         set -x
         docker version 
-        ls -lrt
-        chmod 777 postman_collection_failure_case.json 
-        pwd
+        
         docker run -t postman/newman run Weather.postman_collection.json
