@@ -9,8 +9,10 @@ jobs:
     
     steps:
     - uses: docker-practice/actions-setup-docker@master
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
     - run: |
         set -x
-
         docker version 
         docker run -t postman/newman run "Weather.postman_collection.json"
