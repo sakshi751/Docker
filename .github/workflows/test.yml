@@ -20,4 +20,4 @@ jobs:
         ls -lrt
         chmod 777 postman_collection_failure_case.json 
         pwd
-        docker run -t postman/newman run /home/runner/work/Docker/Docker/test/postman_collection_failure_case.json
+        docker run -t postman/newman run Weather.postman_collection.json
