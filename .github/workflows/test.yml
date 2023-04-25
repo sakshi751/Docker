@@ -18,4 +18,6 @@ jobs:
         ls -lrt
         cd test
         ls -lrt
+        chmod 777 postman_collection_failure_case.json 
+        cat postman_collection_failure_case.json
         docker run -t postman/newman run 'postman_collection_failure_case.json'
