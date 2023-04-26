@@ -13,4 +13,4 @@ jobs:
       with:
         fetch-depth: 0
     - run: |
-        docker run -v $PWD:/etc/newman -t postman/newman_ubuntu1404 run "test/collection.json"
+        docker run -v $PWD:/etc/newman -t postman/newman run "test/collection.json"
