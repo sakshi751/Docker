@@ -19,4 +19,4 @@ jobs:
     - run: |
         set -x
         docker version 
-        docker run -t postman/newman run "test/collection.json"
+        docker run -v $PWD:/etc/newman -t postman/newman_ubuntu1404 run "test/collection.json"
