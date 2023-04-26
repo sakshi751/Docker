@@ -12,6 +12,10 @@ jobs:
     - uses: actions/checkout@v3
       with:
         fetch-depth: 0
+    - name: run postman tests
+      uses: matt-ball/newman-action@master
+      with:
+          collection: "test/collection.json"
     - run: |
         set -x
         docker version 
