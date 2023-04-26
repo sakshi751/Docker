@@ -12,11 +12,5 @@ jobs:
     - uses: actions/checkout@v3
       with:
         fetch-depth: 0
-    - name: run postman tests
-      uses: matt-ball/newman-action@master
-      with:
-          collection: "test/collection.json"
     - run: |
-        set -x
-        docker version 
         docker run -v $PWD:/etc/newman -t postman/newman_ubuntu1404 run "test/collection.json"
