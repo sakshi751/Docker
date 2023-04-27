@@ -20,7 +20,7 @@ jobs:
       - name: Create Token
         id: myRequest
         run: |
-          res= curl --request GET --url "https://980934bbtrial.authentication.us10.hana.ondemand.com/oauth/token?grant_type=client_credentials" --user "${{ secrets.CLIENTID }}:${{ secrets.CLIENTSECRET }}" --header 'content-type: application/json'
+          res= $(curl --request GET --url "https://980934bbtrial.authentication.us10.hana.ondemand.com/oauth/token?grant_type=client_credentials" --user "${{ secrets.CLIENTID }}:${{ secrets.CLIENTSECRET }}" --header 'content-type: application/json')
           echo $res
       - name: Show Token
         run: |
