@@ -21,7 +21,7 @@ jobs:
         id: myRequest
         run: |
           res= curl --request GET --url "https://980934bbtrial.authentication.us10.hana.ondemand.com/oauth/token?grant_type=client_credentials" --user "${{ secrets.CLIENTID }}:${{ secrets.CLIENTSECRET }}" --header 'content-type: application/json'
-          echo ${{ fromJson($res).access_token }}
+          echo ${{ fromJson(res).access_token }}
       - name: Show Token
         run: |
           echo ${{ steps.myRequest.outputs.res}}
