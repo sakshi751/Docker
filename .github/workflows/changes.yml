@@ -20,7 +20,7 @@ jobs:
       - name: Create Token
         id: myRequest
         run: |
-          curl -x https://980934bbtrial.authentication.us10.hana.ondemand.com/oauth/token?grant_type=client_credentials \ 
+          curl -x POST https://980934bbtrial.authentication.us10.hana.ondemand.com/oauth/token?grant_type=client_credentials \ 
            -H "Accept: application/json" \     
            -u " sb-171d2491-9b93-4eae-abe6-6b88d8fc3060!b143373|cas-uaa-prod!b6249 : vXuyMj14JOBq33lgp6XvYbG1uKo= " \     
            -d "grant_type=client_credentials"
