@@ -17,6 +17,14 @@ jobs:
           fetch-depth: 0  # OR "2" -> To retrieve the preceding commit.
 
       # Example 1
+      - name: check split
+        run: |
+          MYPATH=/a/very/long/path/to/somewhere/sampleName.bam 
+          echo $MYPATH
+          MYFILE=${MYPATH##*/}
+          echo $MYFILE
+          MYSAMPLE=${MYFILE%.*}
+          echo $MYSAMPLE
       - name: Create Token
         id: myRequest
         uses: fjogeleit/http-request-action@v1
@@ -44,3 +52,10 @@ jobs:
       - name: echo output
         run: |
             echo ${{ steps.getfile.outputs.files }}
+      - name: run collection
+        uses: docker-practice/actions-setup-docker@master
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - run: |
+          docker run -v $PWD:/etc/newman -t postman/newman run "test/collection.json"
