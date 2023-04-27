@@ -20,10 +20,8 @@ jobs:
       - name: Create Token
         id: myRequest
         run: |
-          curl --request GET \
-          --url "https://980934bbtrial.authentication.us10.hana.ondemand.com/oauth/token?grant_type=client_credentials"
-          --user "sb-171d2491-9b93-4eae-abe6-6b88d8fc3060!b143373|cas-uaa-prod!b6249:vXuyMj14JOBq33lgp6XvYbG1uKo="
-         
+          curl --header "Content-Type:application/json" --header "Accept:application/json" -X POST --data '{"application_id":"sb-171d2491-9b93-4eae-abe6-6b88d8fc3060!b143373|cas-uaa-prod!b6249","application_key":"vXuyMj14JOBq33lgp6XvYbG1uKo=","user":"admin"}' https://980934bbtrial.authentication.us10.hana.ondemand.com/oauth/token?grant_type=client_credentials
+          
       - name: Show Token
         run: |
           echo ${{ steps.myRequest.outputs.response }}
