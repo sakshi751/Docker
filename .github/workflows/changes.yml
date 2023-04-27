@@ -46,7 +46,7 @@ jobs:
             echo ${{ steps.getfile.outputs.files }}
       - name: check split
         run: |
-          MYPATH=/a/very/long/path/to/somewhere/sample Name.bam
+          MYPATH=/a/very/long/path/to/somewhere/sampleName.bam
           echo $MYPATH
           MYFILE=${MYPATH##*/}
           echo $MYFILE
