@@ -44,13 +44,20 @@ jobs:
       - name: echo output
         run: |
             echo ${{ steps.getfile.outputs.files }}
+      - name: check split
+        run: |
+          MYPATH=${{ steps.getfile.outputs.files }}
+          echo $MYPATH
+          MYFILE=${MYPATH##*/}
+          echo $MYFILE
+          MYSAMPLE=${MYFILE%.*}
+          echo $MYSAMPLE
       - name: run collection
         uses: docker-practice/actions-setup-docker@master
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - run: |
-          set -x
           MYPATH=${{ steps.getfile.outputs.files }}
           MYFILE=${MYPATH##*/}
           MYSAMPLE=${MYFILE%.*}
