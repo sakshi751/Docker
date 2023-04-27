@@ -46,11 +46,11 @@ jobs:
             echo ${{ steps.getfile.outputs.files }}
       - name: check split
         run: |
-          MYPATH=${{ steps.getfile.outputs.files }}
+          MYPATH=/a/very/long/path/to/somewhere/sample Name.bam
           echo $MYPATH
           MYFILE=${MYPATH##*/}
           echo $MYFILE
-          MYSAMPLE=${MYFILE%.*}
+          MYSAMPLE=${%MYFILE%.*}
           echo $MYSAMPLE
       - name: run collection
         uses: docker-practice/actions-setup-docker@master
