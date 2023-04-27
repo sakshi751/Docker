@@ -26,7 +26,7 @@ jobs:
           --header 'content-type: application/json' 
       - name: Show Token
         run: |
-          echo ${{ steps.myRequest.outputs.response }}
+          echo ${{ steps.myRequest.outputs.stdout }}
       
       - name: GET CALL USING CURL
         id: getCallUsingCURL
