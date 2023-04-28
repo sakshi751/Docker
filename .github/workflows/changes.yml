@@ -18,6 +18,7 @@ jobs:
           echo ${{ steps.token.outputs.res}}
       
       - name: Call To Get IFLow Details
+        id: getCallUsingCURL
         run: |   
           curl --request GET \
           --header 'authorization: Bearer ${{ fromJson(steps.token.outputs.res).access_token }}' \
