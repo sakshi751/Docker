@@ -1,4 +1,4 @@
-name: Changes
+name: Calling Postman Collection
 
 on:
   push:
