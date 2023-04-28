@@ -32,6 +32,6 @@ jobs:
           
       - name: character-replacement-test
         run: |
-          REPO='github/workflow/intflow.yml'
+          REPO='github/workflow/int-flow.yml'
           DB_NAME="${REPO//-/_}"
           echo $DB_NAME
