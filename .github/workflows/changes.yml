@@ -1,38 +1,45 @@
 name: Changes
+
 on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 jobs:
   build:
-    runs-on: ubuntu-latest 
+    runs-on: ubuntu-latest  # windows-latest | macos-latest
+    name: Test changed file
     steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # OR "2" -> To retrieve the preceding commit.
+
+      # Example 1
       - name: Create Token
-        id: token
+        id: myRequest
         run: |
           echo "res=$(curl --request GET --url "https://980934bbtrial.authentication.us10.hana.ondemand.com/oauth/token?grant_type=client_credentials" --user "${{ secrets.CLIENTID }}:${{ secrets.CLIENTSECRET }}" --header 'content-type: application/json')" >> $GITHUB_OUTPUT
  
       - name: Show Token
         run: |
-          echo ${{ steps.token.outputs.res}}
+          echo ${{ steps.myRequest.outputs.res}}
       
-      - name: Call To Get IFLow Details
+      - name: GET CALL USING CURL
         id: getCallUsingCURL
         run: |   
           curl --request GET \
-          --header 'authorization: Bearer ${{ fromJson(steps.token.outputs.res).access_token }}' \
+          --header 'authorization: Bearer ${{ fromJson(steps.myRequest.outputs.res).access_token }}' \
           --header 'content-type: application/json' \
           --url https://content-agent-engine.cfapps.us10.hana.ondemand.com/v1/contentResources?grant_type=client_credentials
-          
-      - name: Get Changed Files
+      - name: get changed files
         id: getfile
         run: |
           echo "files=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | xargs)" >> $GITHUB_OUTPUT
-          
-      - name: Changed File Name
+      - name: echo output
         run: |
             echo ${{ steps.getfile.outputs.files }}
-            
       - name: Run Docker
         uses: docker-practice/actions-setup-docker@master
       - uses: actions/checkout@v3
