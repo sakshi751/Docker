@@ -29,3 +29,9 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/clockbox:latest
+          
+      - name: character-replacement-test
+        run: |
+          REPO='github/workflow/intflow.yml'
+          DB_NAME="${REPO//-/_}"
+          echo $DB_NAME
