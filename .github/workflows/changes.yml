@@ -20,21 +20,21 @@ jobs:
         run: |
           echo ${{ steps.myRequest.outputs.res}}
       
-      - name: GET CALL USING CURL
+      - name: Call To Get IFLow Details
         id: getCallUsingCURL
         run: |   
           curl --request GET \
           --header 'authorization: Bearer ${{ fromJson(steps.myRequest.outputs.res).access_token }}' \
           --header 'content-type: application/json' \
           --url https://content-agent-engine.cfapps.us10.hana.ondemand.com/v1/contentResources?grant_type=client_credentials
-      - name: get changed files
+      - name: Get Changed Files
         id: getfile
         run: |
           echo "files=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | xargs)" >> $GITHUB_OUTPUT
-      - name: echo output
+      - name: Changed File Name
         run: |
             echo ${{ steps.getfile.outputs.files }}
-      - name: run collection
+      - name: Run Docker
         uses: docker-practice/actions-setup-docker@master
       - uses: actions/checkout@v3
         with:
