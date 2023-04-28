@@ -1,60 +1,45 @@
 name: Changes
-
 on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 jobs:
   build:
-    runs-on: ubuntu-latest  # windows-latest | macos-latest
-    name: Test changed file
+    runs-on: ubuntu-latest 
     steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0  # OR "2" -> To retrieve the preceding commit.
-
-      # Example 1
       - name: Create Token
-        id: myRequest
+        id: token
         run: |
           echo "res=$(curl --request GET --url "https://980934bbtrial.authentication.us10.hana.ondemand.com/oauth/token?grant_type=client_credentials" --user "${{ secrets.CLIENTID }}:${{ secrets.CLIENTSECRET }}" --header 'content-type: application/json')" >> $GITHUB_OUTPUT
  
       - name: Show Token
         run: |
-          echo ${{ steps.myRequest.outputs.res}}
+          echo ${{ steps.token.outputs.res}}
       
-      - name: GET CALL USING CURL
+      - name: Call To Get IFLow Details
         id: getCallUsingCURL
         run: |   
           curl --request GET \
-          --header 'authorization: Bearer ${{ fromJson(steps.myRequest.outputs.res).access_token }}' \
+          --header 'authorization: Bearer ${{ fromJson(steps.token.outputs.res).access_token }}' \
           --header 'content-type: application/json' \
           --url https://content-agent-engine.cfapps.us10.hana.ondemand.com/v1/contentResources?grant_type=client_credentials
-      - name: get changed files
+          
+      - name: Get Changed Files
         id: getfile
         run: |
           echo "files=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | xargs)" >> $GITHUB_OUTPUT
-      - name: echo output
+          
+      - name: Changed File Name
         run: |
             echo ${{ steps.getfile.outputs.files }}
-      - name: check split
-        run: |
-          MYPATH=${{ steps.getfile.outputs.files }}
-          echo $MYPATH
-          MYFILE=${MYPATH##*/}
-          echo $MYFILE
-          MYSAMPLE=${MYFILE%.*}
-          echo $MYSAMPLE
-      - name: run collection
+            
+      - name: Run Docker
         uses: docker-practice/actions-setup-docker@master
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - run: |
-          MYPATH=${{ steps.getfile.outputs.files }}
-          MYFILE=${MYPATH##*/}
-          MYSAMPLE=${MYFILE%.*}
-          docker run -v $PWD:/etc/newman -t postman/newman run "test/$MYSAMPLE.json"
+          PATH=${{ steps.getfile.outputs.files }}
+          FILE=${PATH##*/}
+          NAME=${FILE%.*}
+          docker run -v $PWD:/etc/newman -t postman/newman run "test/$NAME.json"
