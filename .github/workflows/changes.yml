@@ -34,13 +34,13 @@ jobs:
       - name: echo output
         run: |
             echo ${{ steps.getfile.outputs.files }}
-      - name: Run Docker
+      - name: run collection
         uses: docker-practice/actions-setup-docker@master
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - run: |
-          PATH=${{ steps.getfile.outputs.files }}
-          FILE=${PATH##*/}
-          NAME=${FILE%.*}
-          docker run -v $PWD:/etc/newman -t postman/newman run "test/$NAME.json"
+          MYPATH=${{ steps.getfile.outputs.files }}
+          MYFILE=${MYPATH##*/}
+          MYSAMPLE=${MYFILE%.*}
+          docker run -v $PWD:/etc/newman -t postman/newman run "test/$MYSAMPLE.json"
