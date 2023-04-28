@@ -43,7 +43,7 @@ jobs:
         with:
           fetch-depth: 0
       - run: |
-          PATH=${{ steps.getfile.outputs.files }}
-          FILE=${PATH##*/}
-          MYSAMPLE=${FILE%.*}
+          MYPATH=${{ steps.getfile.outputs.files }}
+          MYFILE=${MYPATH##*/}
+          MYSAMPLE=${MYFILE%.*}
           docker run -v $PWD:/etc/newman -t postman/newman run "test/$MYSAMPLE.json"
