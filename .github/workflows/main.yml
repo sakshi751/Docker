@@ -32,7 +32,7 @@ jobs:
           
       - name: character-replacement-test
         run: |
-          REPO='github/workflow/int flow.yml'
+          REPO='github/workflow/int_flow.yml'
           DB_NAME="${REPO// /^}"
           echo $DB_NAME
           MYPATH=$DB_NAME
