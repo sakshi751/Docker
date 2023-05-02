@@ -42,14 +42,7 @@ jobs:
         with:
           fetch-depth: 0
       - run: |
-          REPO=${{ steps.getfile.outputs.files }}
-          DB_NAME="${REPO// /^}"
-          echo $DB_NAME
-          MYPATH=$DB_NAME
+          MYPATH=${{ steps.getfile.outputs.files }}
           MYFILE=${MYPATH##*/}
           MYSAMPLE=${MYFILE%.*}
-          echo $MYSAMPLE
-          REPOS=$MYSAMPLE
-          DBNAME="${REPOS//^/ }"
-          echo $DBNAME
-          docker run -v $PWD:/etc/newman -t postman/newman run "test/$DBNAME.json"
+          docker run -v $PWD:/etc/newman -t postman/newman run "test/$MYSAMPLE.json"
