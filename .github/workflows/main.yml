@@ -16,7 +16,7 @@ jobs:
       - name: Create Token
         id: myRequest
         run: |
-          echo "res=$(curl --request PUT  --url 'https://githubaction.atlassian.net/rest/api/2/issue/GIT-1'  --user "shivamrajput1710@gmail.com:ATATT3xFfGF0hU1nV97eeRsQ4eWu1RAAa5AjaA2Ef9tcgRosdq27WzWRyVyc5y84nLXZZbY_0pa7NXtXwdQK4nUepkxM1fPUU5yujtLgxeWWY3VMWh_mkhcHvJKkUIK8RChoskMI9Ik_CRsyR_oHo-dHMjah8vPbQwq8dxTxA3QJRBEMaws2PZc=D78C6768"  --header 'Accept: application/json'  --header 'Content-Type: application/json'  --data {"update": { "comment": [{ "add": { "body": "test comment123" }}] },"fields": {"description": "sakshi k"}})" >> $GITHUB_OUTPUT
+          echo "res=$(curl -X PUT 'https://githubaction.atlassian.net/rest/api/2/issue/GIT-1'  --user "shivamrajput1710@gmail.com:ATATT3xFfGF0hU1nV97eeRsQ4eWu1RAAa5AjaA2Ef9tcgRosdq27WzWRyVyc5y84nLXZZbY_0pa7NXtXwdQK4nUepkxM1fPUU5yujtLgxeWWY3VMWh_mkhcHvJKkUIK8RChoskMI9Ik_CRsyR_oHo-dHMjah8vPbQwq8dxTxA3QJRBEMaws2PZc=D78C6768"  --header 'Accept: application/json'  --header 'Content-Type: application/json'  --data {"update": { "comment": [{ "add": { "body": "test comment123" }}] },"fields": {"description": "sakshi k"}})" >> $GITHUB_OUTPUT
  
       - name: Show Token
         run: |
