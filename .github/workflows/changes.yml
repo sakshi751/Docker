@@ -24,6 +24,11 @@ jobs:
         if: steps.myRequest.outcome != 'success' 
         run: exit 1 
          echo ${{steps.myRequest.outcome}}
+       
+      - name: Check on success
+        if: steps.myRequest.outcome == 'success' 
+        run: 
+         echo ${{steps.myRequest.outcome}}
         
       - name: Call To Get IFLow Details
         run: |   
