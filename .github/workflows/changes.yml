@@ -14,19 +14,19 @@ jobs:
       - name: Create Token
         id: myRequest
         run: |
-          echo "res=$(curl --request GET --url "https://80934bbtrial.authentication.us10.hana.ondemand.com/oauth/token?grant_type=client_credentials" --user "${{ secrets.CLIENTID }}:${{ secrets.CLIENTSECRET }}" --header 'content-type: application/json')" >> $GITHUB_OUTPUT
+          echo "res=$(curl --request GET --url "https://980934bbtrial.authentication.us10.hana.ondemand.com/oauth/token?grant_type=client_credentials" --user "${{ secrets.CLIENTID }}:${{ secrets.CLIENTSECRET }}" --header 'content-type: application/json')" >> $GITHUB_OUTPUT
  
       - name: Show Token
         run: |
           echo ${{ steps.myRequest.outputs.res}}
       
       - name: Check on failures
-        if: steps.myRequest.outcome != 'success' 
+        if: steps.myRequest.outcome == 'success' 
         run: exit 1 
          echo ${{steps.myRequest.outcome}}
        
       - name: Check on success
-        if: steps.myRequest.outcome == 'success' 
+        if: steps.myRequest.outcome != 'success' 
         run: 
          echo ${{steps.myRequest.outcome}}
         
