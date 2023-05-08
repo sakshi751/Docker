@@ -11,8 +11,7 @@ jobs:
       - name: Create Token
         id: myRequest
         run: |
-          curl --header 'Authorization: Bearer c5a1e2243d3602bac8edf4e207dbe3126d3c725f' https://sonarqube.com/api/user_tokens/generate
- 
+          curl -u c5a1e2243d3602bac8edf4e207dbe3126d3c725f: https://sonarqube.com/api/user_tokens/search 
       - name: Show Token
         run: |
           echo ${{ steps.myRequest.outputs.res}}
