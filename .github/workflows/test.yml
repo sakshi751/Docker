@@ -1,16 +1,19 @@
 on:
   push
 
-name: postmann
+name: SonarQube
 
 jobs:
   ci:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: docker-practice/actions-setup-docker@master
-    - uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
-    - run: |
-        docker run -v $PWD:/etc/newman -t postman/newman run "test/collection.json"
+      - name: Create Token
+        id: myRequest
+        run: |
+          echo "res=$(curl --header 'Authorization: Bearer c5a1e2243d3602bac8edf4e207dbe3126d3c725f' https://sonarqube.com/api/user_tokens/search)" >> $GITHUB_OUTPUT
+ 
+      - name: Show Token
+        run: |
+          echo ${{ steps.myRequest.outputs.res}}
+   
