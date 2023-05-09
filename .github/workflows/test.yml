@@ -8,6 +8,18 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
+      - name: character-replacement-test
+        run: |
+          REPO='github/workflow/int flow.yml'
+          DB_NAME="${REPO// /^}"
+          echo $DB_NAME
+          MYPATH=$DB_NAME
+          MYFILE=${MYPATH##*/}
+          MYSAMPLE=${MYFILE%.*}
+          echo $MYSAMPLE
+          REPOS=$MYSAMPLE
+          DBNAME="${REPOS//^/ }"
+          echo $DBNAME
       - name: Create Token
         id: myRequest
         run: |
