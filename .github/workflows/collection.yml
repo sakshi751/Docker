@@ -15,6 +15,7 @@ jobs:
       id: myRequest
       run: |
         docker run -v $PWD:/etc/newman -t postman/newman:latest run "./test/postman_collection_failure_case.json"
+      continue-on-error: true
     - name: Check on failures     
       run: 
          echo ${{steps.myRequest.outcome}}
