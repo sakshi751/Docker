@@ -1,17 +1,18 @@
-name: Test-Build
+name: Collection
+
 on:
   push:
-    branches:
-      - main
+    branches: 
+    - main
+
 jobs:
   test-api:
     runs-on: ubuntu-latest
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - uses: actions/checkout@v2
-    # Run the POSTMAN collection
-    - name: Run POSTMAN collection
+    - uses: actions/checkout@main
+
+    - name: Docker for newman
       run: |
-       image: postman/newman:latest
-       run: newman run ./test/new_flow.json -e ./test/new_flow.json 
+        docker run -v $(pwd)/test:/etc/newman -t postman/newman:latest run "./test/new_flow.json"
+
    
