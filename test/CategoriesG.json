@@ -1,0 +1,22 @@
+{
+	"info": {
+		"_postman_id": "4b09d2f4-739f-4bd4-b085-f97e24666ae1",
+		"name": "Categories",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "New Request",
+			"_postman_id": "6af38734-ccf7-463b-8765-18d9e458754b",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "https://services.odata.org/v4/northwind/northwind.svc/Categories"
+			},
+			"response": []
+		}
+	]
+}
