@@ -7,7 +7,19 @@
 	"item": [
 		{
 			"name": "New Request",
-			"_postman_id": "6af38734-ccf7-463b-8765-18d9e458754b",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "33535e0a-0a1e-494c-8c44-b477eab87f8d",
+						"exec": [
+							"pm.variables.get(\"variable_key\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"id": "6af38734-ccf7-463b-8765-18d9e458754b",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
