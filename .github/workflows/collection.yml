@@ -13,6 +13,6 @@ jobs:
 
     - name: Docker for newman
       run: |
-        docker run -v $(pwd)/test:/etc/newman -t postman/newman:latest run "./test/new_flow.json"
+        docker run -v $PWD:/etc/newman -t postman/newman:latest run "./test/new_flow.json"
 
    
