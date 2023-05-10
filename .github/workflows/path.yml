@@ -10,7 +10,4 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - name: Create issue using REST API
-        id: myRequest
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
+        run: echo 'Hello'
