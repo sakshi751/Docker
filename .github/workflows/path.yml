@@ -1,0 +1,16 @@
+name: Create issue on commit
+
+on: 
+  push:
+     paths:
+      - 'test/**'
+
+jobs:
+  create_issue:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Create issue using REST API
+        id: myRequest
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
