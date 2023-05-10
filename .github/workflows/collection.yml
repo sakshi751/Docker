@@ -12,7 +12,11 @@ jobs:
     - uses: actions/checkout@main
 
     - name: Docker for newman
+      id: myRequest
       run: |
         docker run -v $PWD:/etc/newman -t postman/newman:latest run "./test/postman_collection_failure_case.json"
-
+    - name: Check on failures     
+      run: 
+         echo ${{steps.myRequest.outcome}}
+       
    
