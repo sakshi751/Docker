@@ -14,7 +14,7 @@ jobs:
       - name: Create Token
         id: myRequest
         run: |
-          echo "res=$(curl --request GET --url "https://980934bbtrial.authentication.us10.hana.ondemand.com/oauth/token?grant_type=client_credentials" --user "sb-e8856ae1-3d2b-4de8-8aa7-e54ccb3bf6b0!b143373|it!b55215:1937f8e6-cd26-40c1-8e1b-ee08fa1e335e$f5SDNZrO4rwsmzIYtzvJQ76YgOJ3fPOXEqV5q5e6ero=" --header 'content-type: application/json')" >> $GITHUB_OUTPUT
+          echo "res=$(curl --request GET --url "https://980934bbtrial.authentication.us10.hana.ondemand.com/oauth/token?grant_type=client_credentials" --user "'sb-e8856ae1-3d2b-4de8-8aa7-e54ccb3bf6b0!b143373|it!b55215':'1937f8e6-cd26-40c1-8e1b-ee08fa1e335e$f5SDNZrO4rwsmzIYtzvJQ76YgOJ3fPOXEqV5q5e6ero='" --header 'content-type: application/json')" >> $GITHUB_OUTPUT
  
       - name: Show Token
         run: |
