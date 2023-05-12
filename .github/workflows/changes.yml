@@ -24,7 +24,7 @@ jobs:
         id: Csrf
         run: |
           csrf=$(curl --header 'Authorization: Basic c2hpdmFtcmFqcHV0MTcxMEBnbWFpbC5jb206U2hpdmFtQDEyMw==' --url 'https://980934bbtrial.it-cpitrial06.cfapps.us10-001.hana.ondemand.com/api/v1/' --header 'Accept: application/json' --header 'DataServiceVersion: 2.0' --header 'X-CSRF-Token: Fetch')
-          echo $Csrf
+          echo $csrf
       - name: Deploy IFlow
         run: |
             data=$(curl --request POST --url 'https://980934bbtrial.it-cpitrial06.cfapps.us10-001.hana.ondemand.com/api/v1/DeployIntegrationDesigntimeArtifact?Version=%271.0.5%27&Id=527new_flow%27' --header 'Accept: application/json' --header 'X-CSRF-Token: 5e11af77cdb0917cacfe08d38272600d181134d7bd5c9ca261ab01f9a978b3841683873558258' --header 'DataServiceVersion: 2.0' --header 'APIKey: 6pagSQDAKqCBv9K4sf7vL6GaOikghSbe' -u shivamrajput1710@gmail.com:Shivam@123)
