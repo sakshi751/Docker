@@ -23,7 +23,7 @@ jobs:
       - name: CSRF Token
         id: Csrf
         run: |
-          csrf=$(curl -u shivamrajput1710@gmail.com:Shivam@123 --url 'https://980934bbtrial.it-cpitrial06.cfapps.us10-001.hana.ondemand.com/api/v1/' --header 'Accept: application/json' --header 'DataServiceVersion: 2.0' --header 'X-CSRF-Token: Fetch')
+          csrf=$(curl --request GET -u shivamrajput1710@gmail.com:Shivam@123 --url 'https://980934bbtrial.it-cpitrial06.cfapps.us10-001.hana.ondemand.com/api/v1/' --header 'Accept: application/json' --header 'DataServiceVersion: 2.0' --header 'X-CSRF-Token: Fetch')
           echo $csrf
       - name: Deploy IFlow
         run: |
