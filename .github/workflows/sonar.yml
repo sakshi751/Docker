@@ -1,7 +1,7 @@
 name: Build
 env:
    req: '{"update": {"customfield_10223": [{"set": "1234567"}],"comment": [{"add": {"body": "hello from github"}}]}'
-   JSON_DOC: ${{toJSON(env.req)}}
+   JSON_DOC: ${{toJSON(req)}}
 on:
   push:
     branches:
