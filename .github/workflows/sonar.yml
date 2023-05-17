@@ -1,4 +1,7 @@
 name: Build
+env:
+   req: '{"update": {"customfield_10223": [{"set": "1234567"}],"comment": [{"add": {"body": "hello from github"}}]}'
+   JSON_DOC: ${{toJSON(${{env.req}})}}
 on:
   push:
     branches:
@@ -11,10 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
         - name: Update ChaRM id in Jira
-          env:
-           req: '{"update": {"customfield_10223": [{"set": "1234567"}],"comment": [{"add": {"body": "hello from github"}}]}'
-           JSON_DOC: ${{toJSON(${{env.req}})}}
-        - run: |
+          run: |
              echo ${{JSON_DOC}}
                #  curl -X PUT 'https://cpg-gpc-xt-hub.atlassian.net/rest/api/2/issue/${{env.ricefw_id}}' -H 'Accept: application/json' -H 'Content-Type: application/json' -d "{\"update\": {\"customfield_10223\": [{\"set\": \"0980\"}],\"comment\": [{\"add\": {\"body\": \"Hello from Github\"}}]}}" --user "arpit.munet@canadapost.postescanada.ca:ATATT3xFfGF0CN_TLmDqcC1v3iXK4KhCGTOS4d7kaFnhZJdB4G8Bva11bg7PRwuBLzXe6JThfmaqIkOBdKwo9Ow-3JbsXajR48Y2zAoeam2bW3e-9BZKJIt2agIePUMmWLIGkDnYG3dA265DFCjJTbWKSuMuR_1AmXGjHRfQx-Yy8NYa4ubIQ_Y=4AFFCC89"
 
