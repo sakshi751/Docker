@@ -14,21 +14,21 @@ jobs:
       - name: Create Token
         id: myRequest
         run: |
-          echo "res=$(curl --request GET --url "https://980934bbtrial.authentication.us10.hana.ondemand.com/oauth/token?grant_type=client_credentials" --header 'Authorization: Basic c2ItZTg4NTZhZTEtM2QyYi00ZGU4LThhYTctZTU0Y2NiM2JmNmIwIWIxNDMzNzN8aXQhYjU1MjE1OjE5MzdmOGU2LWNkMjYtNDBjMS04ZTFiLWVlMDhmYTFlMzM1ZSRmNVNETlpyTzRyd3NteklZdHp2SlE3NllnT0ozZlBPWEVxVjVxNWU2ZXJvPQ==' --header 'content-type: application/json')" >> $GITHUB_OUTPUT
+          echo "res=$(curl --request GET --url "https://development-dn6yj4ti.authentication.ca10.hana.ondemand.com/oauth/token?grant_type=client_credentials" -u sb-69742024-3de4-47f8-83e5-4e2dd0aa9849!b805|alm-ts-backend!b37:WwRJdDW3kIdtJTr5GJBq0TzEHus= --header 'content-type: application/json')" >> $GITHUB_OUTPUT
  
       - name: Show Token
         run: |
           echo ${{ steps.myRequest.outputs.res}}
       
-      - name: CSRF Token
-        id: Csrf
-        run: |
-          csrf=$(curl -X HEAD --request GET --header 'authorization: Bearer ${{ fromJson(steps.myRequest.outputs.res).access_token }}'  --url "https://980934bbtrial.it-cpitrial06.cfapps.us10-001.hana.ondemand.com/api/v1/" --header 'Accept: application/json' --header 'DataServiceVersion: 2.0' --header 'X-CSRF-Token: Fetch')
-          echo $csrf
-      - name: Deploy IFlow
-        run: |
-            data=$(curl --request POST --url 'https://980934bbtrial.it-cpitrial06.cfapps.us10-001.hana.ondemand.com/api/v1/DeployIntegrationDesigntimeArtifact?Version=%271.0.5%27&Id=527new_flow%27' --header 'Accept: application/json' --header 'X-CSRF-Token: 5e11af77cdb0917cacfe08d38272600d181134d7bd5c9ca261ab01f9a978b3841683873558258' --header 'DataServiceVersion: 2.0' --header 'APIKey: 6pagSQDAKqCBv9K4sf7vL6GaOikghSbe' -u shivamrajput1710@gmail.com:Shivam@123)
-            echo $data
+#       - name: CSRF Token
+#         id: Csrf
+#         run: |
+#           csrf=$(curl -X HEAD --request GET --header 'authorization: Bearer ${{ fromJson(steps.myRequest.outputs.res).access_token }}'  --url "https://980934bbtrial.it-cpitrial06.cfapps.us10-001.hana.ondemand.com/api/v1/" --header 'Accept: application/json' --header 'DataServiceVersion: 2.0' --header 'X-CSRF-Token: Fetch')
+#           echo $csrf
+#       - name: Deploy IFlow
+#         run: |
+#             data=$(curl --request POST --url 'https://980934bbtrial.it-cpitrial06.cfapps.us10-001.hana.ondemand.com/api/v1/DeployIntegrationDesigntimeArtifact?Version=%271.0.5%27&Id=527new_flow%27' --header 'Accept: application/json' --header 'X-CSRF-Token: 5e11af77cdb0917cacfe08d38272600d181134d7bd5c9ca261ab01f9a978b3841683873558258' --header 'DataServiceVersion: 2.0' --header 'APIKey: 6pagSQDAKqCBv9K4sf7vL6GaOikghSbe' -u shivamrajput1710@gmail.com:Shivam@123)
+#             echo $data
         
 #       - name: Check on failures
 #         if: steps.myRequest.outcome == 'success' 
