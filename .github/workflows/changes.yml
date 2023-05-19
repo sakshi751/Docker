@@ -19,6 +19,12 @@ jobs:
       - name: Show Token
         run: |
           echo ${{ steps.myRequest.outputs.res}}
+          
+      - name: TMS API
+        id: tms
+        run: |
+          tms=$(curl --request GET --header 'authorization: Bearer ${{ fromJson(steps.myRequest.outputs.res).access_token }}'  --url "https://transport-service-app-backend.ts.cfapps.ca10.hana.ondemand.com/v2/" --header 'Accept: application/json')
+          echo $tms
       
 #       - name: CSRF Token
 #         id: Csrf
