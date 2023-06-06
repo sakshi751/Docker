@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "d71e6b1c-0d49-4765-a4d2-8c781a9d8365",
-		"name": "Demo ",
+		"name": "Demo",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
 	},
 	"item": [
@@ -21,7 +21,7 @@
 					}
 				}
 			],
-			"_postman_id": "876d9990-84e2-4eff-a12b-5b14f9f631ea",
+			"id": "876d9990-84e2-4eff-a12b-5b14f9f631ea",
 			"protocolProfileBehavior": {
 				"disableBodyPruning": true
 			},
@@ -29,6 +29,29 @@
 				"method": "GET",
 				"header": [],
 				"url": "https://services.odata.org/v4/northwind/northwind.svc/Categories"
+			},
+			"response": []
+		},
+		{
+			"name": "Token",
+			"id": "9dbc876f-4f60-438b-89c9-d6e96f25ffd6",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "oauth2",
+					"oauth2": {
+						"clientSecret": "J+neLeyi7wqBcEPXM1hl4CqAkTE=",
+						"clientId": "sb-e0a3d792-09fd-42b7-8a2c-e4213af53411!b805|cas-uaa-prod!b58",
+						"accessTokenUrl": "https://development-dn6yj4ti.authentication.ca10.hana.ondemand.com/oauth/token",
+						"grant_type": "client_credentials",
+						"addTokenTo": "header"
+					}
+				},
+				"method": "GET",
+				"header": [],
+				"url": ""
 			},
 			"response": []
 		}
