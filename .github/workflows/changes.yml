@@ -62,20 +62,10 @@ jobs:
         run: |
             echo ${{ steps.getfile.outputs.files }}
             
-#       - name: Run Docker
-#         uses: docker-practice/actions-setup-docker@master
-#       - uses: actions/checkout@v3
-#         with:
-#           fetch-depth: 0
-#       - run: |
-#           REPO=${{ steps.getfile.outputs.files }}
-#           DB_NAME="${REPO// /^}"
-#           echo $DB_NAME
-#           MYPATH=$DB_NAME
-#           MYFILE=${MYPATH##*/}
-#           MYSAMPLE=${MYFILE%.*}
-#           echo $MYSAMPLE
-#           REPOS=$MYSAMPLE
-#           DBNAME="${REPOS//^/ }"
-#           echo $DBNAME
-#           docker run -v $PWD:/etc/newman -t postman/newman run "test/$DBNAME.json"
+      - name: Run Docker
+        uses: docker-practice/actions-setup-docker@master
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - run: |
+            docker run -v $PWD:/etc/newman -t postman/newman run "${{ steps.getfile.outputs.files }}"
