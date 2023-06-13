@@ -19,7 +19,7 @@ jobs:
           echo ${{ steps.myRequest.outputs.res}}
           
       - name: CAS
-        id: cas
+        id: casData
         run: |
           cas=$(curl --request GET --header 'authorization: Bearer ${{ fromJson(steps.myRequest.outputs.res).access_token }}'  --url "https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/contentResources" --header 'Accept: application/json')
           echo $cas
@@ -27,5 +27,6 @@ jobs:
           
       - name: payload
         run: |
-           pid= ${{ steps.cas.outputs.res}}
+           pid= ${{ steps.casData.outputs.res}}
            echo $pid 
+           echo ${{ steps.casData.outputs.res}}
