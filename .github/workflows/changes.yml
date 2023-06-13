@@ -6,7 +6,7 @@ on:
     branches:
       - main
 jobs:
-  tms:
+  ctms:
     if: ${{env.tms}}  == 'yes'
     runs-on: ubuntu-latest 
     steps:
