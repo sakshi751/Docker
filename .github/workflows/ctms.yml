@@ -21,12 +21,12 @@ jobs:
       - name: CAS
         id: casData
         run: |
-          cas=$(curl --request GET --header 'authorization: Bearer ${{ fromJson(steps.myRequest.outputs.res).access_token }}'  --url "https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/contentResources" --header 'Accept: application/json')
-          echo $cas
-          #cat $cas | jq -c '.[] | select( .id=="IflowForDevOpsTest" )'
+          echo "res=$(curl --request GET --header 'authorization: Bearer ${{ fromJson(steps.myRequest.outputs.res).access_token }}'  --url "https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/contentResources" --header 'Accept: application/json')"
+          
+         
           
       - name: payload
         run: |
-           pid= ${{ steps.casData.outputs.cas}}
+           pid= ${{ steps.casData.outputs.res}}
            echo $pid 
-           echo ${{ steps.casData.outputs.cas}}
+           echo ${{ steps.casData.outputs.res}}
