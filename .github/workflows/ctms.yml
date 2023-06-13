@@ -25,4 +25,4 @@ jobs:
                
       - name: payload
         run: |
-           echo ${{ steps.casData.outputs.res}}
+           echo ${{ steps.casData.outputs.res}} | jq '.id'
