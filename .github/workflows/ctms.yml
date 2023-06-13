@@ -27,6 +27,6 @@ jobs:
           
       - name: payload
         run: |
-           pid= ${{ steps.casData.outputs.res}}
+           pid= ${{ steps.casData.outputs.cas}}
            echo $pid 
-           echo ${{ steps.casData.outputs.res}}
+           echo ${{ steps.casData.outputs.cas}}
