@@ -25,4 +25,4 @@ jobs:
                
       - name: payload
         run: |
-           echo ${{ steps.casData.outputs.res}} | jq '.id'
+           echo ${{ steps.casData.outputs.res}} | jq '.[] | select(.id=="IflowForDevOpsTest")'
