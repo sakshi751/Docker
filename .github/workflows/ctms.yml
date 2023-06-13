@@ -28,5 +28,5 @@ jobs:
          
           cat > configuration.json <<EOF
           '${{  steps.casData.outputs.res }}
-          EOF | jq '.[] | select(.id=="IflowForDevOpsTest")'
+           | jq '.[] | select(.id=="IflowForDevOpsTest")' EOF
          
