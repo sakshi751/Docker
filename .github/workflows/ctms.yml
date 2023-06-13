@@ -27,5 +27,5 @@ jobs:
           
       - name: payload
         run: |
-           pid= ' ${{ steps.cas.outputs.res}}'
-           echo pid | jq '.id'
+           pid= ${{ steps.cas.outputs.res}}
+           echo $pid | jq '.id'
