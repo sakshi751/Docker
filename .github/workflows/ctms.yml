@@ -25,10 +25,8 @@ jobs:
                
       - name: payload
         run: |
-          # echo ${{ steps.casData.outputs.res}} | jq '.id[]'
+         
           cat > configuration.json <<EOF
           '${{  steps.casData.outputs.res }}
           EOF
-          # prId="$(echo '${{  steps.casData.outputs.res }}' | jq '.id[]')";
-           # echo "$prId";
-           # echo "prId=$prId" >> "$GITHUB_OUTPUT"
+         
