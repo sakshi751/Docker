@@ -10,15 +10,10 @@ jobs:
     steps:
       - name: character-replacement-test
         run: |
-          dirname github/workflow/int flow.yml
-          REPO='github/workflow/int flow.yml'
-          cut --help
+          dirname /github/workflow/int flow.yml
+          REPO='/github/workflow/int flow.yml'
           BASE_DIRECTORY=$(echo "$REPO" | cut -d "/" -f1)
-          split=(${REPO//\// })
-          index=$((${#split[@]}-1))
-          DOCKER_TAG=${split[$index]}
-          echo DOCKER_TAG=$DOCKER_TAG >> $GITHUB_ENV
-          echo "::set-output name=DOCKER_TAG::$DOCKER_TAG"
+     
 #       - name: Create Token
 #         id: myRequest
 #         run: |
