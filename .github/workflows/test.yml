@@ -1,4 +1,4 @@
-name: Access JSON Data
+name: Extract JSON Details
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  accessData:
+  extractDetails:
     runs-on: ubuntu-latest
 
     steps:
@@ -14,18 +14,21 @@ jobs:
         id: access
         run: |
           # Set the JSON data as a string
-          echo "::set-output name=data::{\"id\": 12345, \"name\": \"example\"}"
+          echo "::set-output name=data::{\"id\": 12345, \"name\": \"example\", \"description\": \"Some description\"}"
 
-      - name: Extract ID
+      - name: Extract Details
         id: extract
         run: |
-          # Parse the JSON data and extract the ID
+          # Parse the JSON data and extract details based on input value
           json_data="${{ steps.access.outputs.data }}"
-          id=$(echo $json_data | sed -n 's/.*"id":\([^,}]*\).*/\1/p')
-          echo "::set-output name=id::$id"
+          value_needed="id"  # Update this with the value you want to search for
+          details=$(echo $json_data | jq --arg value "$value_needed" '. | select(.name == $value)')
 
-      - name: Use the extracted ID
+          # Store the extracted details as an output
+          echo "::set-output name=details::$details"
+
+      - name: Use the extracted details
         run: |
-          # Access the extracted ID
-          extracted_id="${{ steps.extract.outputs.id }}"
-          echo "Extracted ID: $extracted_id"
+          # Access the extracted details
+          extracted_details="${{ steps.extract.outputs.details }}"
+          echo "Extracted Details: $extracted_details"
