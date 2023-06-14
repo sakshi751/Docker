@@ -17,8 +17,8 @@ jobs:
         id: access
         run: |
           # Retrieve the JSON data and store it in a variable
-          json_data='{"id": 12345, "name": "example"}'
-          echo "::set-output name=data::$json_data"
+          echo '{"id": 12345, "name": "example"}' >> data.json
+          echo "::set-output name=data::$(cat data.json)"
 
       - name: Extract ID
         id: extract
