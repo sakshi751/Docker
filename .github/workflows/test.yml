@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: character-replacement-test
         run: |
-          basename github/workflow/int flow.yml
+          dirname github/workflow/int flow.yml
           REPO='github/workflow/int flow.yml'
           split=(${REPO//\// })
           index=$((${#split[@]}-1))
