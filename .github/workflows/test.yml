@@ -11,20 +11,16 @@ jobs:
       - name: character-replacement-test
         run: |
           REPO='github/workflow/int flow.yml'
-          DB_NAME="${REPO// /^}"
-          echo $DB_NAME
-          MYPATH=$DB_NAME
-          MYFILE=${MYPATH##*/}
-          MYSAMPLE=${MYFILE%.*}
-          echo $MYSAMPLE
-          REPOS=$MYSAMPLE
-          DBNAME="${REPOS//^/ }"
-          echo $DBNAME
-      - name: Create Token
-        id: myRequest
-        run: |
-          curl -u c5a1e2243d3602bac8edf4e207dbe3126d3c725f: https://sonarqube.com/api/user_tokens/search 
-      - name: Show Token
-        run: |
-          echo ${{ steps.myRequest.outputs.res}}
+          split=(${REPO//\// })
+          index=$((${#split[@]}-1))
+          DOCKER_TAG=${split[$index]}
+          echo DOCKER_TAG=$DOCKER_TAG >> $GITHUB_ENV
+          echo "::set-output name=DOCKER_TAG::$DOCKER_TAG"
+#       - name: Create Token
+#         id: myRequest
+#         run: |
+#           curl -u c5a1e2243d3602bac8edf4e207dbe3126d3c725f: https://sonarqube.com/api/user_tokens/search 
+#       - name: Show Token
+#         run: |
+#           echo ${{ steps.myRequest.outputs.res}}
    
