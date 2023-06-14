@@ -13,7 +13,7 @@ jobs:
           dirname github/workflow/int flow.yml
           REPO='github/workflow/int flow.yml'
           cut --help
-          BASE_DIRECTORY=$(echo "$REPO" | cut -d -f1)
+          BASE_DIRECTORY=$(echo "$REPO" | cut -d "/" -f1)
           split=(${REPO//\// })
           index=$((${#split[@]}-1))
           DOCKER_TAG=${split[$index]}
