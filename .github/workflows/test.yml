@@ -11,9 +11,9 @@ jobs:
       - name: character-replacement-test
         run: |
           dirname /github/workflow/int flow.yml
-          REPO='github/workflow/'
-          basedirectory=$(echo "$REPO" | cut -d "/" -f1)
-     
+          REPO='github/workflow/int.json'
+          MYFILE=${fileName[^/]*}
+          echo $MYFILE
 #       - name: Create Token
 #         id: myRequest
 #         run: |
