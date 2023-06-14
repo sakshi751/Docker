@@ -12,7 +12,7 @@ jobs:
         run: |
           dirname /github/workflow/int flow.yml
           REPO='/github/workflow/int flow.yml'
-          BASE_DIRECTORY=$(echo "$REPO" | cut -d "/" -f2)
+          BASE_DIRECTORY=$(echo "$REPO" | cut -f1)
      
 #       - name: Create Token
 #         id: myRequest
