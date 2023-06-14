@@ -22,7 +22,7 @@ jobs:
           # Parse the JSON data and extract details based on input value
           json_data="${{ steps.access.outputs.data }}"
           value_needed="example"  # Update this with the value you want to search for
-          details=$(echo "$json_data" | jq --arg value "$value_needed" '. | select(.name == $value)')
+          details=$(echo "$json_data" | jq --arg value "$value_needed" '. | select(.name == $value).description')
 
           # Store the extracted details as an output
           echo "::set-output name=details::$details"
