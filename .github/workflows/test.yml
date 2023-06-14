@@ -19,12 +19,12 @@ jobs:
       - name: Extract Details
         id: extract
         run: |
-          # Parse the JSON data and extract details based on input value
+          # Parse the JSON data and extract details based on input value using Python
           json_data="${{ steps.access.outputs.data }}"
           value_needed="example"  # Update this with the value you want to search for
 
           # Extract details using jq
-          details=$(echo "$json_data" | jq --arg input "$value_needed" '. | select(.name == $input).description')
+          details=$(echo "$json_data" | jq --arg value "$value_needed" '. | select(.name == $value.value_needed).description')
 
           # Store the extracted details as an output
           echo "::set-output name=details::$details"
