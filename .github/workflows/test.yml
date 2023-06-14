@@ -10,15 +10,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
       - name: Access JSON data
         id: access
         run: |
-          # Retrieve the JSON data and store it in a variable
-          echo "{\"id\": 12345, \"name\": \"example\"}" >> data.json
-          echo "::set-output name=data::$(cat data.json)"
+          # Set the JSON data as a string
+          echo "::set-output name=data::{\"id\": 12345, \"name\": \"example\"}"
 
       - name: Extract ID
         id: extract
