@@ -19,12 +19,13 @@ jobs:
       - name: Extract ID
         id: extract
         run: |
-          # Retrieve and print the JSON data
+          # Parse the JSON data and extract the ID
           json_data="${{ steps.access.outputs.data }}"
-          echo "JSON Data: $json_data"
+          id=$(echo $json_data | sed -n 's/.*"id":\([^,}]*\).*/\1/p')
+          echo "::set-output name=id::$id"
 
       - name: Use the extracted ID
         run: |
           # Access the extracted ID
-          extracted_id="${{ steps.extract.outputs.data }}"
+          extracted_id="${{ steps.extract.outputs.id }}"
           echo "Extracted ID: $extracted_id"
