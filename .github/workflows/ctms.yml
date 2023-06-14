@@ -25,8 +25,7 @@ jobs:
                
       - name: payload
         run: |
-         
-          cat > configuration.json <<EOF
-          '${{  steps.casData.outputs.res }}
-           | jq '.[] | select(.id=="IflowForDevOpsTest")' EOF
+         json_data="${{  steps.casData.outputs.res }}"
+          id=$(echo $json_data | jq -r '.count')
+          
          
