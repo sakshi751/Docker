@@ -1,24 +1,35 @@
-on:
-  push
+name: Access JSON Data
 
-name: SonarQube
+on:
+  push:
+    branches:
+      - main
 
 jobs:
-  ci:
+  accessData:
     runs-on: ubuntu-latest
-    
+
     steps:
-      - name: character-replacement-test
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Access JSON data
+        id: access
         run: |
-          dirname /github/workflow/int flow.yml
-          REPO='github/workflow/int.json'
-          MYFILE=${REPO%%/*}
-          echo $MYFILE
-#       - name: Create Token
-#         id: myRequest
-#         run: |
-#           curl -u c5a1e2243d3602bac8edf4e207dbe3126d3c725f: https://sonarqube.com/api/user_tokens/search 
-#       - name: Show Token
-#         run: |
-#           echo ${{ steps.myRequest.outputs.res}}
-   
+          # Retrieve the JSON data and store it in a variable
+          json_data='{"id": 12345, "name": "example"}'
+          echo "::set-output name=data::$json_data"
+
+      - name: Extract ID
+        id: extract
+        run: |
+          # Parse the JSON data and extract the ID
+          json_data="${{ steps.access.outputs.data }}"
+          id=$(echo $json_data | jq -r '.id')
+          echo "::set-output name=id::$id"
+
+      - name: Use the extracted ID
+        run: |
+          # Access the extracted ID
+          extracted_id="${{ steps.extract.outputs.id }}"
+          echo "Extracted ID: $extracted_id"
