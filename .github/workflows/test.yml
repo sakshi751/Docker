@@ -11,8 +11,8 @@ jobs:
       - name: character-replacement-test
         run: |
           dirname /github/workflow/int flow.yml
-          REPO='/github/workflow/int flow.yml'
-          BASE_DIRECTORY=$(echo "$REPO" | cut -f1)
+          REPO='github/workflow/int flow.yml'
+          basedirectory=$(echo "$REPO" | awk -F "/" '{print $2}')
      
 #       - name: Create Token
 #         id: myRequest
