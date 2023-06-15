@@ -14,7 +14,7 @@ jobs:
         id: access
         run: |
           # Set the JSON data as a string
-          echo "::set-output name=data::{\"id\": 12345, \"name\": \"example\", \"description\": \"Some description\"}"
+          echo "::set-output name=data::{\"id\": 12345, \"name\": \"example\"}"
 
       - name: Extract Details
         id: extract
