@@ -20,7 +20,7 @@ jobs:
         id: extract
         run: |
           # Parse the JSON data and extract details based on input value using jq
-          json_data="${{ steps.access.outputs.data }}"
+          json_data=$(echo "${{ steps.access.outputs.data }}" | sed "s/'/\"/g")
           value_needed="example"  # Update this with the value you want to search for
 
           # Extract details using jq
