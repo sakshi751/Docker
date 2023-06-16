@@ -14,13 +14,13 @@ jobs:
         id: access
         run: |
           # Set the JSON data as a string
-          echo "::set-output name=data::{\"id\": \"12345\", \"name\": \"example\"}"
+          echo "{\"id\": \"12345\", \"name\": \"example\"}" >> json_data.json
 
       - name: Extract Details
         id: extract
         run: |
           # Parse the JSON data and extract details based on input value using jq
-          json_data="${{ steps.access.outputs.data }}"
+          json_data=$(cat json_data.json)
           value_needed="example"  # Update this with the value you want to search for
 
           # Extract details using jq
