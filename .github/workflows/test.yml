@@ -23,8 +23,13 @@ jobs:
           json_data=$(cat json_data.json)
           value_needed="example"  # Update this with the value you want to search for
 
+          echo "JSON Data: $json_data"
+          echo "Value Needed: $value_needed"
+
           # Extract details using jq
           details=$(echo "$json_data" | jq --arg value "$value_needed" '. | select(.name == $value).description')
+
+          echo "Extracted Details: $details"
 
           # Store the extracted details as an output
           echo "::set-output name=details::$details"
