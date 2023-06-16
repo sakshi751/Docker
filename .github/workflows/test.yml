@@ -14,7 +14,7 @@ jobs:
         id: access
         run: |
           # Set the JSON data as a string
-          echo "::set-output name=data::{\"id\": \"12345\", \"name\": \"example\"}"
+          echo "::set-output name=data::'{\"id\": \"12345\", \"name\": \"example\"}'"
 
       - name: Extract Details
         id: extract
@@ -24,7 +24,7 @@ jobs:
           value_needed="example"  # Update this with the value you want to search for
 
           # Extract details using jq
-          details=$(echo "$json_data" | jq --arg value "$value_needed" '.[] | select(.name == $value).description')
+          details=$(echo "$json_data" | jq --arg value "$value_needed" '. | select(.name == $value).description')
 
           # Store the extracted details as an output
           echo "::set-output name=details::$details"
