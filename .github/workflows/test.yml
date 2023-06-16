@@ -23,16 +23,20 @@ jobs:
           json_data=$(cat json_data.json)
           value_needed="example"  # Update this with the value you want to search for
 
-          echo "JSON Data: $json_data"
-          echo "Value Needed: $value_needed"
+          # Validate JSON structure
+          valid_json=$(echo "$json_data" | jq empty)
 
-          # Extract details using jq
-          details=$(echo "$json_data" | jq --arg value "$value_needed" '. | select(.name == $value).description')
+          if [ "$valid_json" == "" ]; then
+            echo "Invalid JSON data: $json_data"
+          else
+            # Extract details using jq
+            details=$(echo "$json_data" | jq --arg value "$value_needed" 'select(.name == $value).description')
 
-          echo "Extracted Details: $details"
+            echo "Extracted Details: $details"
 
-          # Store the extracted details as an output
-          echo "::set-output name=details::$details"
+            # Store the extracted details as an output
+            echo "::set-output name=details::$details"
+          fi
 
       - name: Use the extracted details
         run: |
