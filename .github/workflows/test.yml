@@ -24,7 +24,7 @@ jobs:
           value_needed="example"  # Update this with the value you want to search for
 
           # Extract details using jq
-          details=$(echo "$json_data" | jq --arg value "$value_needed" '.description')
+          details=$(echo "$json_data" | jq --arg value "$value_needed" 'select(.name == $value).description')
 
           # Store the extracted details as an output
           echo "::set-output name=details::$details"
