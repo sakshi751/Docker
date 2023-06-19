@@ -21,8 +21,12 @@ jobs:
          json_data=$(cat json_data.json)
 
           component_id=$(echo "$json_data" | jq -r '.contentResources[].components[] | select(.name == "IPost iFlow") | .id')
+          echo $component_id
           echo "test=$component_id" >> "$GITHUB_OUTPUT"
-
+          component_type=$(echo "$json_data" | jq -r '.contentResources[].components[] | select(.name == "IPost iFlow") | .type')
+          echo $component_type
+          resource_ID=$(echo "$json_data" | jq -r '.contentResources[] | select(.name == "Iflow For DevOps Test") | .resourceID')
+          echo $resource_ID
       - name: extracted component id
         run: |
           extracted_component_id="${{ steps.extract.outputs.test }}"
