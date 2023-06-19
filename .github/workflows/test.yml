@@ -16,23 +16,29 @@ jobs:
           # Set the JSON data as a string
           echo '{"id": "12345", "name": "example", "description": "This is an example"}' >> json_data.json
 
-      - name: Install jq
-        run: |
-          # Install jq
-          sudo apt-get update
-          sudo apt-get install -y jq
-
       - name: Extract Details
         id: extract
         run: |
-          # Parse the JSON data and extract details based on input value using jq
+          # Install Python
+          sudo apt-get update
+          sudo apt-get install -y python3
+
+          # Parse the JSON data and extract details based on input value using Python
           json_data=$(cat json_data.json)
           value_needed="example"  # Update this with the value you want to search for
 
-          # Extract details using jq
-          details=$(echo "$json_data" | jq --arg value "$value_needed" 'select(.name == $value).description')
+          # Extract details using Python
+          details=$(python3 -c "
+import json
 
-          echo "Extracted Details: $details"
+json_data = '''$json_data'''
+value_needed = '''$value_needed'''
+
+data = json.loads(json_data)
+details = [item['description'] for item in data if item['name'] == value_needed]
+
+print('Extracted Details:', details[0] if details else None)
+          ")
 
           # Store the extracted details as an output
           echo "::set-output name=details::$details"
