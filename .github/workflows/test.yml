@@ -14,7 +14,7 @@ jobs:
         id: access
         run: |
           # Set the JSON data as a string
-          echo "{\"id\": \"12345\", \"name\": \"example\"}" >> json_data.json
+          echo "{\"id\": \"12345\", \"name\": \"example\", \"description\": \"This is an example\"}" >> json_data.json
 
       - name: Extract Details
         id: extract
