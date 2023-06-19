@@ -29,8 +29,11 @@ jobs:
           if [ "$valid_json" == "" ]; then
             echo "Invalid JSON data: $json_data"
           else
+            # URL encode the JSON data
+            encoded_json_data=$(echo -n "$json_data" | jq -sRr @uri)
+
             # Extract details using jq
-            details=$(echo "$json_data" | jq --arg value "$value_needed" 'select(.name == $value).description')
+            details=$(echo "$encoded_json_data" | jq -r --arg value "$value_needed" 'fromjson | select(.name == $value) | .description')
 
             echo "Extracted Details: $details"
 
