@@ -38,4 +38,4 @@ jobs:
         run: |
           # Access the extracted details
           extracted_details="${{ steps.extract.outputs.test }}"
-          echo "Extracted Details: $extracted_details"
+          echo "Extracted Details:" $extracted_details
