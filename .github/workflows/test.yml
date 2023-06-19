@@ -37,5 +37,5 @@ jobs:
       - name: Use the extracted details
         run: |
           # Access the extracted details
-          extracted_details="${{ steps.extract.outputs.test }}"
+          extracted_details=${{ steps.extract.outputs.test }}
           echo ${{ steps.extract.outputs.test }}
