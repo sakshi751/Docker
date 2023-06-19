@@ -25,14 +25,11 @@ jobs:
 
           # Extract details using jq
           details=$(echo "$json_data" | jq --arg value "$value_needed" 'select(.name == $value).description')
-
+          echo "test=$details" >> "$GITHUB_OUTPUT"
           echo "Extracted Details: $details"
-
-          # Store the extracted details as an output
-          echo "::set-output name=details::$details"
 
       - name: Use the extracted details
         run: |
           # Access the extracted details
-          extracted_details="${{ steps.extract.outputs.details }}"
-          echo "Extracted Details: $extracted_details"
+          extracted_details=${{ steps.extract.outputs.details }}
+          echo $extracted_details
