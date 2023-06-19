@@ -16,12 +16,6 @@ jobs:
           # Set the JSON data as a string
           echo '{"id": "12345", "name": "example", "description": "This is an example"}' >> json_data.json
 
-      - name: Install jq
-        run: |
-          # Install jq
-          sudo apt-get update
-          sudo apt-get install -y jq
-
       - name: Extract Details
         id: extract
         run: |
@@ -31,11 +25,14 @@ jobs:
 
           # Extract details using jq
           details=$(echo "$json_data" | jq --arg value "$value_needed" 'select(.name == $value).description')
-          echo "test=$details" >> "$GITHUB_OUTPUT"
+
           echo "Extracted Details: $details"
+
+          # Store the extracted details as an output
+          echo "::set-output name=details::$details"
 
       - name: Use the extracted details
         run: |
           # Access the extracted details
-          extracted_details=${{ steps.extract.outputs.test }}
-          echo ${{ steps.extract.outputs.test }}
+          extracted_details="${{ steps.extract.outputs.details }}"
+          echo "Extracted Details: $extracted_details"
