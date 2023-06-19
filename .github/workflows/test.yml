@@ -16,13 +16,15 @@ jobs:
           # Set the JSON data as a string
           echo '{"id": "12345", "name": "example", "description": "This is an example"}' >> json_data.json
 
-      - name: Extract Details
-        id: extract
+      - name: Install Python
         run: |
           # Install Python
           sudo apt-get update
           sudo apt-get install -y python3
 
+      - name: Extract Details
+        id: extract
+        run: |
           # Parse the JSON data and extract details based on input value using Python
           json_data=$(cat json_data.json)
           value_needed="example"  # Update this with the value you want to search for
