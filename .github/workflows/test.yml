@@ -14,7 +14,7 @@ jobs:
         id: access
         run: |
           # Set the JSON data as a string
-          echo "{\"id\": \"12345\", \"name\": \"example\", \"description\": \"This is an example\"}" >> json_data.json
+          echo '{"id": "12345", "name": "example", "description": "This is an example"}' >> json_data.json
 
       - name: Extract Details
         id: extract
@@ -23,23 +23,13 @@ jobs:
           json_data=$(cat json_data.json)
           value_needed="example"  # Update this with the value you want to search for
 
-          # Validate JSON structure
-          valid_json=$(echo "$json_data" | jq empty)
+          # Extract details using jq
+          details=$(echo "$json_data" | jq --arg value "$value_needed" 'select(.name == $value).description')
 
-          if [ "$valid_json" == "" ]; then
-            echo "Invalid JSON data: $json_data"
-          else
-            # Escape inner double quotes in the JSON data
-            escaped_json_data=$(echo "$json_data" | sed 's/"/\\"/g')
+          echo "Extracted Details: $details"
 
-            # Extract details using jq
-            details=$(echo "$escaped_json_data" | jq --arg value "$value_needed" 'select(.name == $value).description')
-
-            echo "Extracted Details: $details"
-
-            # Store the extracted details as an output
-            echo "::set-output name=details::$details"
-          fi
+          # Store the extracted details as an output
+          echo "::set-output name=details::$details"
 
       - name: Use the extracted details
         run: |
