@@ -7,10 +7,11 @@ jobs:
     steps:
       - name: Set values
         id: set_values
-        run: echo "values=a,b,c" >> $GITHUB_ENV
-         IFS=',' read -ra arr <<< "$values"
-         array="${arr[*]}"
-         for item in $array; 
-         do
-           echo "Value:$item"
-         done
+        run: |
+          echo "values=a,b,c" >> $GITHUB_ENV
+          values=$values
+          IFS=',' read -ra arr <<< "$values"
+          array="${arr[*]}"
+          for item in $array; do
+            echo "Value: $item"
+          done
