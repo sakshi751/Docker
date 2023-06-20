@@ -10,6 +10,9 @@ jobs:
         run: |
           echo "values=a,b,c" >> $GITHUB_ENV
           echo "$values" | tr ',' '\n' > array.txt
+
+      - name: Use array
+        run: |
           array=$(cat array.txt)
           for item in $array; do
             echo "Value: $item"
