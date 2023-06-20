@@ -10,6 +10,7 @@ jobs:
         run: echo "values=a,b,c" >> $GITHUB_ENV
          IFS=',' read -ra arr <<< "$values"
          array="${arr[*]}"
-         for item in $array; do
+         for item in $array; 
+         do
            echo "Value:$item"
          done
