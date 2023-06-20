@@ -5,19 +5,11 @@ jobs:
   example_job:
     runs-on: ubuntu-latest
     steps:
-      - name: Set values
-        id: set_values
-        run: |
-          echo "values=a,b,c" >> $GITHUB_ENV
-
-      - name: Create array
-        id: create_array
-        run: |
-          echo "$values" | tr ',' '\n' > array.txt
-
       - name: Use array
         run: |
-          array=$(cat array.txt)
-          for item in $array; do
+          values="a,b,c"
+          IFS=',' read -ra arr <<< "$values"
+          for item in "${arr[@]}"; do
             echo "Value: $item"
           done
+
