@@ -27,10 +27,10 @@ jobs:
           for item in "${arr[@]}"; do
             echo $item
             val=$item
-            component_id=$(echo "$json_data" | jq -r '.contentResources[].components[] | select(.name == ${{val}}) | .id')
+            component_id=$(echo "$json_data" | jq -r '.contentResources[].components[] | select(.name == $val) | .id')
             echo $component_id
             echo "test=$component_id" >> "$GITHUB_OUTPUT"
-            component_type=$(echo "$json_data" | jq -r '.contentResources[].components[] | select(.name == ${{val}}) | .type')
+            component_type=$(echo "$json_data" | jq -r '.contentResources[].components[] | select(.name == $val) | .type')
             echo $component_type
           done
       - name: extracted component id
