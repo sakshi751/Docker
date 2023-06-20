@@ -1,33 +1,24 @@
-name: workflow_01
-on:
-  push:
-  workflow_dispatch:
-     inputs:
-      workflow_02:
-        description: 'ًWorkflow 2 which will be triggered'
-        required: true
-        default: 'workflow_02'
-
-      workflow2_github_account:
-        description: 'GitHub Account Owner'
-        required: true
-        default: 'sakshi751'
-
-      workflow2_repo_github:
-        description: 'repo-name'
-        required: true
-        default: 'Demo' 
+name: Array
+on: [push]
 
 jobs:
-  build:
+  example_job:
     runs-on: ubuntu-latest
-
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - name: Test
+      - name: Set values
+        id: set_values
+        run: echo "::set-output name=values::value1,value2,value3"
+
+      - name: Create array
+        id: create_array
         run: |
-          curl -X POST https://api.github.com/repos/sakshi751/Docker/dispatches \
-          -H 'Accept: application/vnd.github.everest-preview+json' \
-          -u ${{ secrets.Workflow_Trigger }} \
-          --data '{"event_type": "Trigger-Workflow", "client_payload": { "repository": "'"$GITHUB_REPOSITORY"'" }}'
-      - uses: actions/checkout@v3
+          values=$INPUT_VALUES
+          IFS=',' read -ra arr <<< "$values"
+          echo "::set-output name=array::$(echo '[\"${arr[@]}\"]' | jq -c)"
+
+      - name: Use array
+        run: |
+          array=$INPUT_ARRAY
+          for item in $(echo "$array" | jq -r '.[]'); do
+            echo "Value: $item"
+          done
