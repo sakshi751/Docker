@@ -1,4 +1,4 @@
-name: Array
+name: Example Workflow
 on: [push]
 
 jobs:
@@ -7,18 +7,19 @@ jobs:
     steps:
       - name: Set values
         id: set_values
-        run: echo "::set-output name=values::value1,value2,value3"
+        run: echo "values=a,b,c" >> $GITHUB_ENV
 
       - name: Create array
         id: create_array
         run: |
-          values=$INPUT_VALUES
+          values=$values
           IFS=',' read -ra arr <<< "$values"
-          echo "::set-output name=array::$(echo '[\"${arr[@]}\"]' | jq -c)"
+          array="${arr[*]}"
+          echo "array=$array" >> $GITHUB_ENV
 
       - name: Use array
         run: |
-          array=$INPUT_ARRAY
-          for item in $(echo "$array" | jq -r '.[]'); do
+          array="$array"
+          for item in $array; do
             echo "Value: $item"
           done
