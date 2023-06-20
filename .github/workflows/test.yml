@@ -26,10 +26,10 @@ jobs:
           IFS=',' read -ra arr <<< "$values"
           for item in "${arr[@]}"; do
             echo $item
-            component_id=$(echo "$json_data" | jq -r '.contentResources[].components[] | select(.name == $item) | .id')
+            component_id=$(echo "$json_data" | jq -r '.contentResources[].components[] | select(.name == ${{item}}) | .id')
             echo $component_id
             echo "test=$component_id" >> "$GITHUB_OUTPUT"
-            component_type=$(echo "$json_data" | jq -r '.contentResources[].components[] | select(.name == $item) | .type')
+            component_type=$(echo "$json_data" | jq -r '.contentResources[].components[] | select(.name == ${{item}}) | .type')
             echo $component_type
           done
       - name: extracted component id
