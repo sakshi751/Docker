@@ -37,8 +37,8 @@ jobs:
            component_type=$(echo "$json_data" | jq -r --arg val "$val" '.contentResources[].components[] | select(.name == $val) | .type')
            component_name=$item
            component_isExportable=$(echo "$json_data" | jq -r --arg val "$val" '.contentResources[].components[] | select(.name == $val) | .isExportable')
-           payload = {"id": "com.sap.capex","version": "1.0.0","requestor": "Content Agent UI","exportMode": "TransportManagementService","exportMediaType": "MTAR","description": "tt","contentResources": [{ "resourceID": $resourceID, "name": $package_name,"type":$package_type, "subType":$package_subType,"id": $package_id,"version": $package_version ,
-           "components": [{"id":$component_id,"name": $component_name,"type": $component_type,"isExportable": $component_isExportable}]}]}
+           payload ="{"id": "com.sap.capex","version": "1.0.0","requestor": "Content Agent UI","exportMode": "TransportManagementService","exportMediaType": "MTAR","description": "tt","contentResources": [{ "resourceID": $resourceID, "name": $package_name,"type":$package_type, "subType":$package_subType,"id": $package_id,"version": $package_version ,
+           "components": [{"id":$component_id,"name": $component_name,"type": $component_type,"isExportable": $component_isExportable}]}]}"
            echo $payload
 
           done
