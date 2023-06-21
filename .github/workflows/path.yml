@@ -1,13 +1,49 @@
-name: Create issue on commit
+name: Extract JSON Details
 
-on: 
+on:
   push:
-     paths:
-      - 'test/**'
+    branches:
+      - main
 
 jobs:
-  create_issue:
+  extractDetails:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Create issue using REST API
-        run: echo 'Hello'
+      - name: Access JSON data
+        id: access
+        run: |
+          echo '{"count":124,"contentResources":[{"id":"IflowForDevOpsTest","resourceID":"f3b1dc1cd5c34ce9a8a8b027d0edc418","type":"CloudIntegration","name":"Iflow For DevOps Test","subType":"package","version":"","title":"Test Iflow created by DevOps team for pipeline","vendor":"","description":"<p></p>","contentUrl":null,"componentQueryPattern":null,"components":[{"id":"Trial_Integration_Flow","name":"Trial Integration Flow","type":"Integration Flow","version":"1.0.1","additionalProperties":null,"exportable":false}],"dependencies":[],"additionalProperties":{"ExportMode":"ZIP"}},{"id":"IPOSTTest","resourceID":"0217163f50b643d3adaeef5d891cee96","type":"CloudIntegration","name":"IPOST Test","subType":"package","version":"","title":"IPOSTTest","vendor":"","description":"<p></p>","contentUrl":null,"componentQueryPattern":null,"components":[{"id":"IPost_iFlow","name":"IPost iFlow","type":"Integration Flow","version":"Active","additionalProperties":null,"exportable":false}],"dependencies":[],"additionalProperties":{"ExportMode":"ZIP"}}]}' >> json_data.json
+
+      - name: Extract Details
+        id: extract
+        run: |
+         json_data=$(cat json_data.json)
+          resource_ID=$(echo "$json_data" | jq -r '.contentResources[] | select(.name == "Iflow For DevOps Test") | .resourceID')
+          echo $resource_ID
+          
+          values="IPost iFlow,Trial Integration Flow"
+          IFS=',' read -ra arr <<< "$values"
+          for item in "${arr[@]}"; do
+            val=$item
+            resourceID=$(echo "$json_data" | jq -r '.contentResources[] | select(.name == "Iflow For DevOps Test") | .resourceID')
+            package_name=$(echo "$json_data" | jq -r '.contentResources[] | select(.name == "Iflow For DevOps Test") | .name')
+            package_type=$(echo "$json_data" | jq -r '.contentResources[] | select(.name == "Iflow For DevOps Test") | .type')
+            package_subType=$(echo "$json_data" | jq -r '.contentResources[] | select(.name == "Iflow For DevOps Test") | .subType')
+            package_id=$(echo "$json_data" | jq -r '.contentResources[] | select(.name == "Iflow For DevOps Test") | .id')
+            package_version=$(echo "$json_data" | jq -r '.contentResources[] | select(.name == "Iflow For DevOps Test") | .version')
+       
+           component_id=$(echo "$json_data" | jq -r --arg val "$val" '.contentResources[].components[] | select(.name == $val) | .id')
+           component_type=$(echo "$json_data" | jq -r --arg val "$val" '.contentResources[].components[] | select(.name == $val) | .type')
+           component_name=$item
+           component_isExportable=$(echo "$json_data" | jq -r --arg val "$val" '.contentResources[].components[] | select(.name == $val) | .isExportable')
+           payload = {"id": "com.sap.capex","version": "1.0.0","requestor": "Content Agent UI","exportMode": "TransportManagementService","exportMediaType": "MTAR","description": "tt","contentResources": [{ "resourceID": $resourceID, "name": $package_name,"type":$package_type, "subType":$package_subType,"id": $package_id,"version": $package_version ,
+           "components": [{"id":$component_id,"name": $component_name,"type": $component_type,"isExportable": $component_isExportable}]}]}
+           echo $payload
+
+          done
+      - name: extracted component id
+        run: |
+          extracted_component_id="${{ steps.extract.outputs.test }}"
+          echo "Extracted Component ID: $extracted_component_id"
+
