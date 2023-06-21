@@ -21,17 +21,20 @@ jobs:
          json_data=$(cat json_data.json)
           resource_ID=$(echo "$json_data" | jq -r '.contentResources[] | select(.name == "Iflow For DevOps Test") | .resourceID')
           echo $resource_ID
-          
-          values="IPost iFlow,Trial Integration Flow"
-          IFS=',' read -ra arr <<< "$values"
+          data='{"package":"Iflow For DevOps Test","iflows":"IPost iFlow,Trial Integration Flow"}'
+          package=$(echo "$data" | jq -r '.package')
+          echo "$package"
+          iflows=$(echo "$data" | jq -r '.iflows')
+          echo "$iflows"
+          IFS=',' read -ra arr <<< "$iflows"
           for item in "${arr[@]}"; do
             val=$item
-            resourceID=$(echo "$json_data" | jq -r '.contentResources[] | select(.name == "Iflow For DevOps Test") | .resourceID')
-            package_name=$(echo "$json_data" | jq -r '.contentResources[] | select(.name == "Iflow For DevOps Test") | .name')
-            package_type=$(echo "$json_data" | jq -r '.contentResources[] | select(.name == "Iflow For DevOps Test") | .type')
-            package_subType=$(echo "$json_data" | jq -r '.contentResources[] | select(.name == "Iflow For DevOps Test") | .subType')
-            package_id=$(echo "$json_data" | jq -r '.contentResources[] | select(.name == "Iflow For DevOps Test") | .id')
-            package_version=$(echo "$json_data" | jq -r '.contentResources[] | select(.name == "Iflow For DevOps Test") | .version')
+            resourceID=$(echo "$json_data" | jq -r '.contentResources[] | select(.name == $package) | .resourceID')
+            package_name=$(echo "$json_data" | jq -r '.contentResources[] | select(.name == $package) | .name')
+            package_type=$(echo "$json_data" | jq -r '.contentResources[] | select(.name == $package) | .type')
+            package_subType=$(echo "$json_data" | jq -r '.contentResources[] | select(.name == $package) | .subType')
+            package_id=$(echo "$json_data" | jq -r '.contentResources[] | select(.name == $package) | .id')
+            package_version=$(echo "$json_data" | jq -r '.contentResources[] | select(.name == $package) | .version')
        
            component_id=$(echo "$json_data" | jq -r --arg val "$val" '.contentResources[].components[] | select(.name == $val) | .id')
            component_type=$(echo "$json_data" | jq -r --arg val "$val" '.contentResources[].components[] | select(.name == $val) | .type')
