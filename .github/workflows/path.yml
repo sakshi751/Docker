@@ -30,6 +30,7 @@ jobs:
           for item in "${arr[@]}"; do
             val=$item
             resourceID=$(echo "$json_data" | jq -r --arg package "$package" '.contentResources[] | select(.name == $package) | .resourceID')
+            echo "$resourceID"
             package_name=$(echo "$json_data" | jq -r --arg package "$package" '.contentResources[] | select(.name == $package) | .name')
             package_type=$(echo "$json_data" | jq -r --arg package "$package" '.contentResources[] | select(.name == $package) | .type')
             package_subType=$(echo "$json_data" | jq -r --arg package "$package" '.contentResources[] | select(.name == $package) | .subType')
