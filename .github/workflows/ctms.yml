@@ -59,10 +59,19 @@ jobs:
           done
           
       - name: Get Activity ID
-        id: actId
+        id: activityId
         run: |
                response=$(curl -i -X POST 'https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/contentResources/export' --header 'authorization: Bearer ${{ fromJson(steps.myRequest.outputs.res).access_token }}'  -H 'Accept: application/json' -H 'Content-Type: application/json' -d ${{toJSON( steps.extract.outputs.testpayload )}} --user "sb-e0a3d792-09fd-42b7-8a2c-e4213af53411!b805|cas-uaa-prod!b58:J+neLeyi7wqBcEPXM1hl4CqAkTE=")
-               echo "$response"
+               output=$(response)
+               parsed_output=$(echo "$output" | fromjson)
+               ID=$(echo "$parsed_output" | jq -r '.activityId')
+               echo "actID=$ID" >> "$GITHUB_OUTPUT"
+               
+      - name: Get TR Id
+        id: TRid
+        run: |
+          echo "res=$(curl --request GET --url "https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/operations/${{steps.activityId.outputs.actID}}/config" -u "sb-e0a3d792-09fd-42b7-8a2c-e4213af53411!b805|cas-uaa-prod!b58:J+neLeyi7wqBcEPXM1hl4CqAkTE=" --header 'content-type: application/json')" >> $GITHUB_OUTPUT
+          echo $res
  
                
          
