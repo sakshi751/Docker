@@ -23,11 +23,6 @@ jobs:
         run: |
           echo "res=$(curl --request GET --header 'authorization: Bearer ${{ fromJson(steps.myRequest.outputs.res).access_token }}'  --url "https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/contentResources" --header 'Accept: application/json')"  >> $GITHUB_OUTPUT
                
-      - name: payload
-        run: |
-         json_data="${{  steps.casData.outputs.res }}"
-          id=$(echo $json_data | jq -r '.count')
-          
       - name: Access JSON data
         id: access
         run: |
