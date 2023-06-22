@@ -34,8 +34,9 @@ jobs:
             package_name=$(echo "$json_data" | jq -r --arg package "$package" '.contentResources[] | select(.name == $package) | .name')
             package_type=$(echo "$json_data" | jq -r --arg package "$package" '.contentResources[] | select(.name == $package) | .type')
             package_subType=$(echo "$json_data" | jq -r --arg package "$package" '.contentResources[] | select(.name == $package) | .subType')
-            package_id=$(echo "$json_data" | jq -r --arg package "$package"'.contentResources[] | select(.name == $package) | .id')
-            package_version=$(echo "$json_data" | jq -r --arg package "$package"'.contentResources[] | select(.name == $package) | .version')
+            package_id=$(echo "$json_data" | jq -r --arg package "$package" '.contentResources[] | select(.name == $package) | .id')
+            echo "$package_id"
+            package_version=$(echo "$json_data" | jq -r --arg package "$package" '.contentResources[] | select(.name == $package) | .version')
        
            component_id=$(echo "$json_data" | jq -r --arg val "$val" '.contentResources[].components[] | select(.name == $val) | .id')
            component_type=$(echo "$json_data" | jq -r --arg val "$val" '.contentResources[].components[] | select(.name == $val) | .type')
