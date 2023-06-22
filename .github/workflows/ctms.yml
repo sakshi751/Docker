@@ -68,7 +68,7 @@ jobs:
       - name: Get TR Id
         id: TRid
         run: |
-          res=$(curl -i -X GET --url "https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/operations/${{ fromJson(steps.activityId.outputs.actID).activityId }}/config" --header 'authorization: Bearer ${{ fromJson(steps.myRequest.outputs.res).access_token }}' -u "sb-e0a3d792-09fd-42b7-8a2c-e4213af53411!b805|cas-uaa-prod!b58:J+neLeyi7wqBcEPXM1hl4CqAkTE=" --header 'content-type: application/json')
+          res=$(curl --request GET --url "https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/operations/${{ fromJson(steps.activityId.outputs.actID).activityId }}/config" --header 'authorization: Bearer ${{ fromJson(steps.myRequest.outputs.res).access_token }}' -u "sb-e0a3d792-09fd-42b7-8a2c-e4213af53411!b805|cas-uaa-prod!b58:J+neLeyi7wqBcEPXM1hl4CqAkTE=" --header 'content-type: application/json')
           echo $res
  
                
