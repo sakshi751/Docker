@@ -58,9 +58,9 @@ jobs:
            echo "testpayload=$payload" >> "$GITHUB_OUTPUT"
           done
           
-          - name: Get Activity ID
-            id: actId
-            run: |
+      - name: Get Activity ID
+        id: actId
+        run: |
                response=$(curl -i -X POST 'https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/contentResources/export' --header 'authorization: Bearer ${{ fromJson(steps.myRequest.outputs.res).access_token }}'  -H 'Accept: application/json' -H 'Content-Type: application/json' -d ${{ steps.extract.outputs.testpayload }} --user "sb-e0a3d792-09fd-42b7-8a2c-e4213af53411!b805|cas-uaa-prod!b58:J+neLeyi7wqBcEPXM1hl4CqAkTE=")
                echo "$response"
  
