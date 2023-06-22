@@ -21,7 +21,7 @@ jobs:
          json_data=$(cat json_data.json)
           resource_ID=$(echo "$json_data" | jq -r '.contentResources[] | select(.name == "Iflow For DevOps Test") | .resourceID')
           echo $resource_ID
-          data='{"package":"Iflow For DevOps Test","iflows":"IPost iFlow,Trial Integration Flow"}'
+          data='{"package"="Iflow For DevOps Test","iflows"="IPost iFlow,Trial Integration Flow"}'
           package=$(echo "$data" | jq -r '.package')
           echo "$package"
           iflows=$(echo "$data" | jq -r '.iflows')
