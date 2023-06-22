@@ -30,12 +30,10 @@ jobs:
           for item in "${arr[@]}"; do
             val=$item
             resourceID=$(echo "$json_data" | jq -r --arg package "$package" '.contentResources[] | select(.name == $package) | .resourceID')
-            echo "$resourceID"
             package_name=$(echo "$json_data" | jq -r --arg package "$package" '.contentResources[] | select(.name == $package) | .name')
             package_type=$(echo "$json_data" | jq -r --arg package "$package" '.contentResources[] | select(.name == $package) | .type')
             package_subType=$(echo "$json_data" | jq -r --arg package "$package" '.contentResources[] | select(.name == $package) | .subType')
             package_id=$(echo "$json_data" | jq -r --arg package "$package" '.contentResources[] | select(.name == $package) | .id')
-            echo "$package_id"
             package_version=$(echo "$json_data" | jq -r --arg package "$package" '.contentResources[] | select(.name == $package) | .version')
        
            component_id=$(echo "$json_data" | jq -r --arg val "$val" '.contentResources[].components[] | select(.name == $val) | .id')
@@ -44,7 +42,6 @@ jobs:
            component_isExportable=$(echo "$json_data" | jq -r --arg val "$val" '.contentResources[].components[] | select(.name == $val) | .isExportable')
            payload='{"id":"com.sap.capex","version":"1.0.0","requestor":"Content Agent UI","exportMode":"TransportManagementService","exportMediaType":"MTAR","description":"tt","contentResources":[{"resourceID":"'"$resourceID"'","name":"'"$package_name"'","type":"'"$package_type"'","subType":"'"$package_subType"'","id":"'"$package_id"'","version":"'"$package_version"'","components":[{"id":"'"$component_id"'","name":"'"$component_name"'","type":"'"$component_type"'","isExportable":"'"$component_isExportable"'"}]}]}'
            echo "$payload"
-
           done
       - name: extracted component id
         run: |
