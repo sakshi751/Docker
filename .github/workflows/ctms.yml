@@ -78,7 +78,7 @@ jobs:
         run: |
            echo ${{steps.myReq.outputs.response}}
            echo ${{ fromJson(steps.activityId.outputs.actID).activityID }}
-           url=${{ format('{0}/{1}/{2}', 'https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/operations', fromJson(steps.activityId.outputs.actID).activityID, 'config')}}
+           url=${{ format('{0}/{1}/{2}', 'https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/operations', toJSON(steps.activityId.outputs.actID).activityID, 'config')}}
            URL=$url
            echo $URL
            echo "testpayload=$URL" >> "$GITHUB_OUTPUT"
