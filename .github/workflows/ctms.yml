@@ -53,22 +53,23 @@ jobs:
            component_type=$(echo "$json_data" | jq -r --arg val "$val" '.contentResources[].components[] | select(.name == $val) | .type')
            component_name=$item
            component_isExportable=$(echo "$json_data" | jq -r --arg val "$val" '.contentResources[].components[] | select(.name == $val) | .isExportable')
-           payload='{"id":"com.sap.capex","version":"1.0.0","requestor":"Content Agent UI","exportMode":"TransportManagementService","exportMediaType":"MTAR","description":"tt","contentResources":[{"resourceID":"'"$resourceID"'","name":"'"$package_name"'","type":"'"$package_type"'","subType":"'"$package_subType"'","id":"'"$package_id"'","version":"'"$package_version"'","components":[{"id":"'"$component_id"'","name":"'"$component_name"'","type":"'"$component_type"'","isExportable":"'"$component_isExportable"'"}]}]}'
+           payload='{"id":"com.sap.capex","version":"1.0.0","requestor":"Content Agent UI","exportMode":"TransportManagementService","exportMediaType":"MTAR","description":"test1","contentResources":[{"resourceID":"'"$resourceID"'","name":"'"$package_name"'","type":"'"$package_type"'","subType":"'"$package_subType"'","id":"'"$package_id"'","version":"'"$package_version"'","components":[{"id":"'"$component_id"'","name":"'"$component_name"'","type":"'"$component_type"'","isExportable":"'"$component_isExportable"'"}]}]}'
            echo "$payload"
            echo "testpayload=$payload" >> "$GITHUB_OUTPUT"
           done
           
-#       - name: Get Activity ID
-#         id: activityId
-#         run: |
-#                response=$(curl -i -X POST 'https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/contentResources/export' --header 'authorization: Bearer ${{ fromJson(steps.myRequest.outputs.res).access_token }}'  -H 'Accept: application/json' -H 'Content-Type: application/json' -d ${{toJSON( steps.extract.outputs.testpayload )}} --user "sb-e0a3d792-09fd-42b7-8a2c-e4213af53411!b805|cas-uaa-prod!b58:J+neLeyi7wqBcEPXM1hl4CqAkTE=")
-#                json_response=$(echo "$response" | awk '/^{/,/}$/ { print }')
-#                echo "actID=$json_response" >> "$GITHUB_OUTPUT"
+      - name: Get Activity ID
+        id: activityId
+        run: |
+               response=$(curl -i -X POST 'https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/contentResources/export' --header 'authorization: Bearer ${{ fromJson(steps.myRequest.outputs.res).access_token }}'  -H 'Accept: application/json' -H 'Content-Type: application/json' -d ${{toJSON( steps.extract.outputs.testpayload )}} --user "sb-e0a3d792-09fd-42b7-8a2c-e4213af53411!b805|cas-uaa-prod!b58:J+neLeyi7wqBcEPXM1hl4CqAkTE=")
+               json_response=$(echo "$response" | awk '/^{/,/}$/ { print }')
+               echo "actID=$json_response" >> "$GITHUB_OUTPUT"
                
       - name: Get TR Id
         id: TRid
         run: |
-           res=$(curl --request GET --header 'authorization: Bearer ${{ fromJson(steps.myRequest.outputs.res).access_token }}'  --url "https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/operations/a1a1b470-1102-11ee-baaf-eeee0a91cb1c/config" --header 'Accept: application/json')
+           url= ${{ format('{0}/{1}/{2}', https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/operations, fromJson(steps.activityId.outputs.actID).transportRequestID, 'config') }}
+           res=$(curl --request GET --header 'authorization: Bearer ${{ fromJson(steps.myRequest.outputs.res).access_token }}'  --url $url --header 'Accept: application/json')
            echo $res
            echo "testpayload=$res" >> "$GITHUB_OUTPUT"
           
