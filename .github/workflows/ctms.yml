@@ -87,7 +87,7 @@ jobs:
           
       - name: echo tr
         run: |
-          res=$(curl -v "https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/operations/${{steps.TRid.outputs.outer}}/config" --header 'authorization: Bearer ${{ fromJson(steps.myRequest.outputs.res).access_token }}' -u "sb-e0a3d792-09fd-42b7-8a2c-e4213af53411!b805|cas-uaa-prod!b58:J+neLeyi7wqBcEPXM1hl4CqAkTE=")
+          res=$(curl -v "https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/operations/${{steps.TRid.outputs.outer | urlencode}}/config" --header 'authorization: Bearer ${{ fromJson(steps.myRequest.outputs.res).access_token }}' -u "sb-e0a3d792-09fd-42b7-8a2c-e4213af53411!b805|cas-uaa-prod!b58:J+neLeyi7wqBcEPXM1hl4CqAkTE=")
           echo $res
          # echo ${{ fromJson(steps.TRid.outputs.testpayload).transportRequestID }}
  
