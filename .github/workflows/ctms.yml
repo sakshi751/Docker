@@ -70,7 +70,7 @@ jobs:
         id: myReq
         uses: fjogeleit/http-request-action@v1
         with:
-           url: ${{ format('{0}/{1}/{2}', 'https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/operations', fromJson(steps.activityId.outputs.actID).activityID, 'config')}}
+           url: ${{ format('{0}/{1}/{2}', 'https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/operations', '1df52417-10d4-11ee-868a-eeee0a846208', 'config')}}
            method: 'GET'
            bearerToken: ${{ fromJson(steps.myRequest.outputs.res).access_token }}
       - name: Get TR Id
