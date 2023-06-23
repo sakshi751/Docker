@@ -85,7 +85,7 @@ jobs:
           
       - name: echo tr
         run: |
-          res=$(curl --request GET --header 'authorization: Bearer ${{ fromJson(steps.myRequest.outputs.res).access_token }}'  --url {{steps.TRid.outputs.testpayload}} )
+          res=$(curl --request GET --header 'authorization: Bearer ${{ fromJson(steps.myRequest.outputs.res).access_token }}'  --url ${{steps.TRid.outputs.testpayload}} )
           echo $res
          # echo ${{ fromJson(steps.TRid.outputs.testpayload).transportRequestID }}
  
