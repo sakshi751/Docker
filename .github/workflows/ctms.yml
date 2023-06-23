@@ -67,6 +67,7 @@ jobs:
                echo "actID=$json_response" >> "$GITHUB_OUTPUT"
       
       - name: Update Status
+        id: myReq
         uses: fjogeleit/http-request-action@v1
         with:
            url: ${{ format('{0}/{1}/{2}', 'https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/operations', fromJson(steps.activityId.outputs.actID).activityID, 'config')}}
@@ -75,7 +76,7 @@ jobs:
       - name: Get TR Id
         id: TRid
         run: |
-           echo ${{steps.myRequest.outputs.response}}
+           echo ${{steps.myReq.outputs.response}}
            # echo ${{ fromJson(steps.activityId.outputs.actID).activityID }}
            # url=${{ format('{0}/{1}/{2}', 'https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/operations', fromJson(steps.activityId.outputs.actID).activityID, 'config')}}
            # URL=$url
