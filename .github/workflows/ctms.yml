@@ -75,7 +75,7 @@ jobs:
       - name: Get TR Id
         id: TRid
         run: |
-           echo ${{steps.myReq.outputs.response}}
+           echo ${{steps.activityId.outputs.actID}}
            out=${{ fromJson(steps.activityId.outputs.actID).activityID }}
            echo $out
            echo "outer=$out" >> "$GITHUB_OUTPUT"
