@@ -66,27 +66,28 @@ jobs:
                echo $json_response
                echo "actID=$json_response" >> "$GITHUB_OUTPUT"
       
-      - name: Update Status
-        id: myReq
-        uses: fjogeleit/http-request-action@v1
-        with:
-           url: ${{ format('{0}/{1}/{2}', 'https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/operations', '1df52417-10d4-11ee-868a-eeee0a846208', 'config')}}
-           method: 'GET'
-           bearerToken: ${{ fromJson(steps.myRequest.outputs.res).access_token }}
+#       - name: Update Status
+#         id: myReq
+#         uses: fjogeleit/http-request-action@v1
+#         with:
+#            url: ${{ format('{0}/{1}/{2}', 'https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/operations', '1df52417-10d4-11ee-868a-eeee0a846208', 'config')}}
+#            method: 'GET'
+#            bearerToken: ${{ fromJson(steps.myRequest.outputs.res).access_token }}
       - name: Get TR Id
         id: TRid
         run: |
            echo ${{steps.myReq.outputs.response}}
-           # echo ${{ fromJson(steps.activityId.outputs.actID).activityID }}
-           # url=${{ format('{0}/{1}/{2}', 'https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/operations', fromJson(steps.activityId.outputs.actID).activityID, 'config')}}
-           # URL=$url
-           # res=$(curl --request GET --header 'authorization: Bearer ${{ fromJson(steps.myRequest.outputs.res).access_token }}'  --url https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/activities?filters=activityId%20eq%20${{ fromJson(steps.activityId.outputs.actID).activityID }} )
-           #echo $res
-           #echo "testpayload=$res" >> "$GITHUB_OUTPUT"
+           echo ${{ fromJson(steps.activityId.outputs.actID).activityID }}
+           url=${{ format('{0}/{1}/{2}', 'https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/operations', fromJson(steps.activityId.outputs.actID).activityID, 'config')}}
+           URL=$url
+           echo $URL
+           echo "testpayload=$URL" >> "$GITHUB_OUTPUT"
           
-     # - name: echo tr
-     #   run: |
-          # echo ${{ fromJson(steps.TRid.outputs.testpayload).transportRequestID }}
+      - name: echo tr
+        run: |
+          res=$(curl --request GET --header 'authorization: Bearer ${{ fromJson(steps.myRequest.outputs.res).access_token }}'  --url {{steps.TRid.outputs.testpayload}} )
+         
+         # echo ${{ fromJson(steps.TRid.outputs.testpayload).transportRequestID }}
  
                
          
