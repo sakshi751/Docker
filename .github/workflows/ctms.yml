@@ -74,7 +74,7 @@ jobs:
           
       - name: echo tr
         run: |
-          ${{ fromJson(steps.TRid.outputs.testpayload).transportRequestID }}
+          echo ${{ fromJson(steps.TRid.outputs.testpayload).transportRequestID }}
  
                
          
