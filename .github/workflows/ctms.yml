@@ -65,16 +65,23 @@ jobs:
                json_response=$(echo "$response" | awk '/^{/,/}$/ { print }')
                echo $json_response
                echo "actID=$json_response" >> "$GITHUB_OUTPUT"
-               
+      
+      - name: Update Status
+        uses: fjogeleit/http-request-action@v1
+        with:
+           url: ${{ format('{0}/{1}/{2}', 'https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/operations', fromJson(steps.activityId.outputs.actID).activityID, 'config')}}
+           method: 'GET'
+           bearerToken: ${{ fromJson(steps.myRequest.outputs.res).access_token }}
       - name: Get TR Id
         id: TRid
         run: |
-           echo ${{ fromJson(steps.activityId.outputs.actID).activityID }}
+           echo ${{steps.myRequest.outputs.response}}
+           # echo ${{ fromJson(steps.activityId.outputs.actID).activityID }}
            # url=${{ format('{0}/{1}/{2}', 'https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/operations', fromJson(steps.activityId.outputs.actID).activityID, 'config')}}
            # URL=$url
-           res=$(curl --request GET --header 'authorization: Bearer ${{ fromJson(steps.myRequest.outputs.res).access_token }}'  --url https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/activities?filters=activityId%20eq%20${{ fromJson(steps.activityId.outputs.actID).activityID }} )
-           echo $res
-           echo "testpayload=$res" >> "$GITHUB_OUTPUT"
+           # res=$(curl --request GET --header 'authorization: Bearer ${{ fromJson(steps.myRequest.outputs.res).access_token }}'  --url https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/activities?filters=activityId%20eq%20${{ fromJson(steps.activityId.outputs.actID).activityID }} )
+           #echo $res
+           #echo "testpayload=$res" >> "$GITHUB_OUTPUT"
           
      # - name: echo tr
      #   run: |
