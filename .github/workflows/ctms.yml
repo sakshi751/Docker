@@ -72,7 +72,7 @@ jobs:
            echo ${{ fromJson(steps.activityId.outputs.actID).activityID }}
            url=${{ format('{0}/{1}/{2}', 'https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/operations', fromJson(steps.activityId.outputs.actID).activityID, 'config')}}
            URL=$url
-           res=$(curl -i -X GET -m 5000 --header 'authorization: Bearer ${{ fromJson(steps.myRequest.outputs.res).access_token }}'  --url $URL --header 'Accept: application/json')
+           res=$(curl --request GET --header 'authorization: Bearer ${{ fromJson(steps.myRequest.outputs.res).access_token }}'  --url $URL )
            echo $res
            echo "testpayload=$res" >> "$GITHUB_OUTPUT"
           
