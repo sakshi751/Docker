@@ -63,11 +63,13 @@ jobs:
         run: |
                response=$(curl -i -X POST 'https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/contentResources/export' --header 'authorization: Bearer ${{ fromJson(steps.myRequest.outputs.res).access_token }}'  -H 'Accept: application/json' -H 'Content-Type: application/json' -d ${{toJSON( steps.extract.outputs.testpayload )}} --user "sb-e0a3d792-09fd-42b7-8a2c-e4213af53411!b805|cas-uaa-prod!b58:J+neLeyi7wqBcEPXM1hl4CqAkTE=")
                json_response=$(echo "$response" | awk '/^{/,/}$/ { print }')
+               echo $json_response
                echo "actID=$json_response" >> "$GITHUB_OUTPUT"
                
       - name: Get TR Id
         id: TRid
         run: |
+           echo ${{ fromJson(steps.activityId.outputs.actID).transportRequestID }}
            url= format('{0}/{1}/{2}', 'https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/operations',${{ fromJson(steps.activityId.outputs.actID).transportRequestID }}, 'config')
            res=$(curl --request GET --header 'authorization: Bearer ${{ fromJson(steps.myRequest.outputs.res).access_token }}'  --url $url --header 'Accept: application/json')
            echo $res
