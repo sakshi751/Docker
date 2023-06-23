@@ -69,8 +69,8 @@ jobs:
       - name: Get TR Id
         id: TRid
         run: |
-           echo ${{ fromJson(steps.activityId.outputs.actID).transportRequestID }}
-           url= format('{0}/{1}/{2}', 'https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/operations',${{ fromJson(steps.activityId.outputs.actID).transportRequestID }}, 'config')
+           echo ${{ fromJson(steps.activityId.outputs.actID).activityID }}
+           url= format('{0}/{1}/{2}', 'https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/operations',${{ fromJson(steps.activityId.outputs.actID).activityID }}, 'config')
            res=$(curl --request GET --header 'authorization: Bearer ${{ fromJson(steps.myRequest.outputs.res).access_token }}'  --url $url --header 'Accept: application/json')
            echo $res
            echo "testpayload=$res" >> "$GITHUB_OUTPUT"
