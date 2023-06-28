@@ -85,21 +85,21 @@ jobs:
            echo "testpayload=$URL" >> "$GITHUB_OUTPUT"
           
       - name: echo tr
-        id: trID
+        id: tr
         run: |
            sleep 5
            res=$(curl -i -X GET "https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/operations/${{steps.TRid.outputs.outer}}/config" --header 'authorization: Bearer ${{ fromJson(steps.myRequest.outputs.res).access_token }}' -H 'Accept: application/json' -u "sb-e0a3d792-09fd-42b7-8a2c-e4213af53411!b805|cas-uaa-prod!b58:J+neLeyi7wqBcEPXM1hl4CqAkTE=")
            json_response=$(echo "$res" | awk '/^{/,/}$/ { print }')
            echo "$json_response"
            transportRequestID=$(echo "$json_response" | jq -r '.transportRequestID')
-           echo "trid=$transportRequestID" >> "$GITHUB_OUTPUT"
+           echo "transportid=$transportRequestID" >> "$GITHUB_OUTPUT"
            echo $transportRequestID
          # echo ${{ fromJson(steps.TRid.outputs.testpayload).transportRequestID }}
          
       - name: Update TR id in Jira
         id: updateTR
         env:
-           req: '{"update": {"customfield_10228": [{"set": "${{ steps.trID.outputs.trid}}"}],"comment": [{"add": {"body": "TR ID is created"}}]}}'
+           req: '{"update": {"customfield_10228": [{"set": "${{ steps.tr.outputs.transportid}}"}],"comment": [{"add": {"body": "TR ID is created"}}]}}'
 
         run: |
              file=$(curl --write-out "%{http_code}" -X PUT 'https://cpg-gpc-xt-hub.atlassian.net/rest/api/2/issue/DEV-30' -H 'Accept: application/json' -H 'Content-Type: application/json' -d ${{toJSON(env.req)}} --user "arpit.munet@canadapost.postescanada.ca:ATATT3xFfGF0B7XLKDLU9Tpt8ah0uTTXoW-fGERs6Ql27I8AViKJ0G5N6utBLFx-TI0Z4bLJiL0t2dCfsGMeKyzd616sDQgQidsHE6jceTr_xU_IsH6NqHU4yWn_i16dCU94vrw4qlxoON_4ddbKC-UqFLH6FghM9hG9NxAmMO0gIhXyfhpdSUA=AA53A3AA")
