@@ -21,7 +21,8 @@ jobs:
       - name: Access JSON data
         id: access
         run: |
-          echo "payload=$('{"transportRequests": [41685]}')"
+          body='{"transportRequests": [41685]}'
+          echo "payload=$body" >> "$GITHUB_OUTPUT"
           
       - name: Import
         id: ctmsImport
