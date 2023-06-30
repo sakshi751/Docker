@@ -9,7 +9,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0  
-      - name: Create Token
+      - name: Create Tokenn
         id: myRequest
         run: |
           echo "res=$(curl --request GET --url "https://development-dn6yj4ti.authentication.ca10.hana.ondemand.com/oauth/token?grant_type=client_credentials" -u "sb-e0a3d792-09fd-42b7-8a2c-e4213af53411!b805|cas-uaa-prod!b58:J+neLeyi7wqBcEPXM1hl4CqAkTE=" --header 'content-type: application/json')" >> $GITHUB_OUTPUT
