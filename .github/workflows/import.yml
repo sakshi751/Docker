@@ -18,9 +18,13 @@ jobs:
         run: |
           echo ${{ steps.myRequest.outputs.res}}
           
+      - name: Access JSON data
+        id: access
+        run: |
+          echo "payload=$('{"transportRequests": [41685]}')"
+          
       - name: Import
         id: ctmsImport
         run: |
-           payload='{"transportRequests": [41685]}'
-           # data=$(curl --request POST --url 'https://transport-service-app-backend.ts.cfapps.ca10.hana.ondemand.com/v2/nodes/4/transportRequests/import' --header 'authorization: Bearer ${{ fromJson(steps.myRequest.outputs.res).access_token }}'  -H 'Accept: application/json' -H 'Content-Type: application/json' -d ${{toJSON( payload )}} -u "sb-69742024-3de4-47f8-83e5-4e2dd0aa9849!b805|alm-ts-backend!b37:WwRJdDW3kIdtJTr5GJBq0TzEHus=")
+           data=$(curl --request POST --url 'https://transport-service-app-backend.ts.cfapps.ca10.hana.ondemand.com/v2/nodes/4/transportRequests/import' --header 'authorization: Bearer ${{ fromJson(steps.myRequest.outputs.res).access_token }}'  -H 'Accept: application/json' -H 'Content-Type: application/json' -d ${{toJSON( steps.access.outputs.payload )}} -u "sb-69742024-3de4-47f8-83e5-4e2dd0aa9849!b805|alm-ts-backend!b37:WwRJdDW3kIdtJTr5GJBq0TzEHus=")
            echo $data    
