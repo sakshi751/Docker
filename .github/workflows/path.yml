@@ -18,7 +18,7 @@ jobs:
           jq -r '.fields.customfield_10228')
     
           tr=$(echo "$existingValue" | jq -r '.content[0].content[0].text')
-          transportRequestID="77777"
+          transportRequestID="${{tr}},40956"
            echo "transportid=$transportRequestID" >> "$GITHUB_OUTPUT"
           
           echo "Updated value: $transportRequestID"
