@@ -10,30 +10,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Access JSON data
-        id: access
-        run: |
-          echo '{"count":124,"contentResources":[{"id":"IflowForDevOpsTest","resourceID":"f3b1dc1cd5c34ce9a8a8b027d0edc418","type":"CloudIntegration","name":"Iflow For DevOps Test","subType":"package","version":"","title":"Test Iflow created by DevOps team for pipeline","vendor":"","description":"<p></p>","contentUrl":null,"componentQueryPattern":null,"components":[{"id":"Trial_Integration_Flow","name":"Trial Integration Flow","type":"Integration Flow","version":"1.0.1","additionalProperties":null,"exportable":false}],"dependencies":[],"additionalProperties":{"ExportMode":"ZIP"}},{"id":"IPOSTTest","resourceID":"0217163f50b643d3adaeef5d891cee96","type":"CloudIntegration","name":"IPOST Test","subType":"package","version":"","title":"IPOSTTest","vendor":"","description":"<p></p>","contentUrl":null,"componentQueryPattern":null,"components":[{"id":"IPost_iFlow","name":"IPost iFlow","type":"Integration Flow","version":"Active","additionalProperties":null,"exportable":false}],"dependencies":[],"additionalProperties":{"ExportMode":"ZIP"}}]}' >> json_data.json
+      - name: Update TR id in Jira
+        id: updateTR
+        env:
+           req: '{"update": {"customfield_10228": [{"set": "${{ steps.tr.outputs.transportid}}"}],"comment": [{"add": {"body": "TR ID is created"}}]}}'
 
-      - name: Extract Details
-        id: extract
         run: |
-         json_data=$(cat json_data.json)
-          resource_ID=$(echo "$json_data" | jq -r '.contentResources[] | select(.name == "Iflow For DevOps Test") | .resourceID')
-          echo $resource_ID
-          
-          values="IPost iFlow,Trial Integration Flow"
-          IFS=',' read -ra arr <<< "$values"
-          for item in "${arr[@]}"; do
-            echo $item
-            val=$item
-           component_id=$(echo "$json_data" | jq -r --arg val "$val" '.contentResources[].components[] | select(.name == $val) | .id')
-            echo $component_id
-            echo "test=$component_id" >> "$GITHUB_OUTPUT"
-            component_type=$(echo "$json_data" | jq -r --arg val "$val" '.contentResources[].components[] | select(.name == $val) | .type')
-            echo $component_type
-          done
-      - name: extracted component id
-        run: |
-          extracted_component_id="${{ steps.extract.outputs.test }}"
-          echo "Extracted Component ID: $extracted_component_id"
+             curl -s -u "${{ secrets.JIRA_PAT_ARPIT }}:${{ secrets.JIRA_USERNAME_ARPIT }}" \
+             -X GET 'https://cpg-gpc-xt-hub.atlassian.net/rest/api/3/issue/DEV-30' | \
+             jq --arg newvalue "${{ steps.tr.outputs.transportid}}" \
+             '.fields.customfield_10228 += ",\($newvalue)"' | \
+             curl -s -u "${{ secrets.JIRA_PAT_ARPIT }}:${{ secrets.JIRA_USERNAME_ARPIT }}" \
+             -X PUT -H "Content-Type: application/json" \
+             -d @- 'https://cpg-gpc-xt-hub.atlassian.net/rest/api/3/issue/DEV-30'
+            # file=$(curl --write-out "%{http_code}" -X PUT 'https://cpg-gpc-xt-hub.atlassian.net/rest/api/2/issue/DEV-30' -H 'Accept: application/json' -H 'Content-Type: application/json' -d ${{toJSON(env.req)}} --user "${{ secrets.JIRA_PAT_ARPIT }}:${{ secrets.JIRA_USERNAME_ARPIT }}")
+            # echo "$file"
