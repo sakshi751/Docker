@@ -12,14 +12,14 @@ jobs:
     steps:
       - name: Update field value in Jira
         run: |
-          existingValue=$(curl -s -u "arpit.munet@canadapost.postescanada.ca:ATATT3xFfGF0y6AUYepZmgYYBKWw1EhVJXwqp-YBMf8PISG5VAUy-OmiLqXLFI_e2NRJThkuBWUN7vdlSJByjWSeown754fZ6vWuXTqE8SFjFacpXPNhJ0JtHM5aXhZqC1sd2lco0LvM0osAAml4Cr2BJJxHFwx843TL7jooaPZS-QRJn_lfBMk=AAB811F9" \
+          existingValue=$(curl -s -u "arpit.munet@canadapost.postescanada.ca:ATATT3xFfGF0FGni-JbIKveHH_peedPRhSShBjyJ_ITDDpElTxWTt8J23nyoT4tJZjkuw6mkpMGOUS0miyaG5-eXwD0uJAP9MlJkQ4WpazT4t3YFlRNO1ibm5VpE4FocYsbO7G-DjlnXib_pEenezve48zndGi5b-s7oanQNdz-fbY-b5wHNT44=225CB9F4" \
           -X GET 'https://cpg-gpc-xt-hub.atlassian.net/rest/api/3/issue/DEV-30' | \
           jq -r '.fields.customfield_10228')
     
           tr=$(echo "$existingValue" | jq -r '.content[0].content[0].text')
           updatedValue="${tr},'77777'"
           echo "Updated value: $updatedValue"
-          curl -s -u "arpit.munet@canadapost.postescanada.ca:ATATT3xFfGF0y6AUYepZmgYYBKWw1EhVJXwqp-YBMf8PISG5VAUy-OmiLqXLFI_e2NRJThkuBWUN7vdlSJByjWSeown754fZ6vWuXTqE8SFjFacpXPNhJ0JtHM5aXhZqC1sd2lco0LvM0osAAml4Cr2BJJxHFwx843TL7jooaPZS-QRJn_lfBMk=AAB811F9"  \
+          curl -s -u "arpit.munet@canadapost.postescanada.ca:ATATT3xFfGF0FGni-JbIKveHH_peedPRhSShBjyJ_ITDDpElTxWTt8J23nyoT4tJZjkuw6mkpMGOUS0miyaG5-eXwD0uJAP9MlJkQ4WpazT4t3YFlRNO1ibm5VpE4FocYsbO7G-DjlnXib_pEenezve48zndGi5b-s7oanQNdz-fbY-b5wHNT44=225CB9F4"  \
             -X PUT -H "Content-Type: application/json" \
             -d '{
               "fields": {
