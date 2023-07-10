@@ -13,16 +13,16 @@ jobs:
       - name: Update field value in Jira
         id: tr
         run: |
-          existingValue=$(curl -s -u "arpit.munet@canadapost.postescanada.ca:ATATT3xFfGF0FGni-JbIKveHH_peedPRhSShBjyJ_ITDDpElTxWTt8J23nyoT4tJZjkuw6mkpMGOUS0miyaG5-eXwD0uJAP9MlJkQ4WpazT4t3YFlRNO1ibm5VpE4FocYsbO7G-DjlnXib_pEenezve48zndGi5b-s7oanQNdz-fbY-b5wHNT44=225CB9F4" \
+          existingValue=$(curl -s -u "arpit.munet@canadapost.postescanada.ca:ATATT3xFfGF01mFZD0eI2QTr_vZ88y-trizoo--fXUYaFbkgcYDM5RlGAgW3N4ROZwanLDdaNKye2Y4g7iOztdTopymsEkE_Wf6x3arQhqynFy1U2qd5zqBh3n6QrIEwGVNOJypB6liEWilXvE440aTK7bXDOCvwrEbknyTMVmtc2B9d1RZQPow=EDF9C1C0" \
           -X GET 'https://cpg-gpc-xt-hub.atlassian.net/rest/api/3/issue/DEV-30' | \
           jq -r '.fields.customfield_10228')
     
           tr=$(echo "$existingValue" | jq -r '.content[0].content[0].text')
-          transportRequestID="${{tr}},40956"
+          transportRequestID="40956"
            echo "transportid=$transportRequestID" >> "$GITHUB_OUTPUT"
           
           echo "Updated value: $transportRequestID"
-#           curl -s -u "arpit.munet@canadapost.postescanada.ca:ATATT3xFfGF0FGni-JbIKveHH_peedPRhSShBjyJ_ITDDpElTxWTt8J23nyoT4tJZjkuw6mkpMGOUS0miyaG5-eXwD0uJAP9MlJkQ4WpazT4t3YFlRNO1ibm5VpE4FocYsbO7G-DjlnXib_pEenezve48zndGi5b-s7oanQNdz-fbY-b5wHNT44=225CB9F4"  \
+#           curl -s -u "arpit.munet@canadapost.postescanada.ca:ATATT3xFfGF01mFZD0eI2QTr_vZ88y-trizoo--fXUYaFbkgcYDM5RlGAgW3N4ROZwanLDdaNKye2Y4g7iOztdTopymsEkE_Wf6x3arQhqynFy1U2qd5zqBh3n6QrIEwGVNOJypB6liEWilXvE440aTK7bXDOCvwrEbknyTMVmtc2B9d1RZQPow=EDF9C1C0"  \
 #             -X PUT -H "Content-Type: application/json" \
 #             -d '{
 #               "fields": {
