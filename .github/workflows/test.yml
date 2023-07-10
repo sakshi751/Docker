@@ -12,13 +12,10 @@ jobs:
     steps:
       - name: Update TR id in Jira
         id: updateTR
-        env:
-           req: '{"update": {"customfield_10228": [{"set": "${{ steps.tr.outputs.transportid}}"}],"comment": [{"add": {"body": "TR ID is created"}}]}}'
-
         run: |
              curl -s -u "${{ secrets.JIRA_PAT_ARPIT }}:${{ secrets.JIRA_USERNAME_ARPIT }}" \
              -X GET 'https://cpg-gpc-xt-hub.atlassian.net/rest/api/3/issue/DEV-30' | \
-             jq --arg newvalue "${{ steps.tr.outputs.transportid}}" \
+             jq --arg newvalue "11111" \
              '.fields.customfield_10228 += ",\($newvalue)"' | \
              curl -s -u "${{ secrets.JIRA_PAT_ARPIT }}:${{ secrets.JIRA_USERNAME_ARPIT }}" \
              -X PUT -H "Content-Type: application/json" \
