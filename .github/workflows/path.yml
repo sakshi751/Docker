@@ -13,9 +13,11 @@ jobs:
       - name: Update field value in Jira
         run: |
           existingValue=$(curl -s -u "${{ secrets.JIRA_USERNAME_ARPIT }}:ATATT3xFfGF0nhzX-bj6ZkLwfFjhAm8Ym4xdpJhcB5t5pmpMtkf8jluTzRmX7MZ95spPOo1MRqmaqrFmc9A-Qhaz2987qYTEU2DvQutWhMPVf0G6iE9rb2k7wg1iCM3YMuHSaFmruuPvYITYQBIy3cCpwt4z8Zso0LvqII8Y0Z2sw66NPPLOZKc=6C52DEE4" \
-             -X GET 'https://cpg-gpc-xt-hub.atlassian.net/rest/api/3/issue/DEV-30' | \
-            jq -r '.fields.customfield_10228')
-          updatedValue="${{fromJSON(existingValue).content} "
+          -X GET 'https://cpg-gpc-xt-hub.atlassian.net/rest/api/3/issue/DEV-30' | \
+          jq -r '.fields.customfield_10228')
+    
+          updatedValue=$(echo "$existingValue" | jq -r '.content[0].content[0].text')
+          echo "Text value: $updatedValue"
           echo "Updated value: $updatedValue"
           curl -s -u "${{ secrets.JIRA_USERNAME_ARPIT }}:ATATT3xFfGF0nhzX-bj6ZkLwfFjhAm8Ym4xdpJhcB5t5pmpMtkf8jluTzRmX7MZ95spPOo1MRqmaqrFmc9A-Qhaz2987qYTEU2DvQutWhMPVf0G6iE9rb2k7wg1iCM3YMuHSaFmruuPvYITYQBIy3cCpwt4z8Zso0LvqII8Y0Z2sw66NPPLOZKc=6C52DEE4"  \
             -X PUT -H "Content-Type: application/json" \
