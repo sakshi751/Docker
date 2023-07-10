@@ -18,8 +18,10 @@ jobs:
           jq -r '.fields.customfield_10228')
     
           tr=$(echo "$existingValue" | jq -r '.content[0].content[0].text')
-          transportid="${tr},77777"
-          echo "Updated value: $transportid"
+          transportRequestID="${tr},77777"
+           echo "transportid=$transportRequestID" >> "$GITHUB_OUTPUT"
+          
+          echo "Updated value: $transportRequestID"
 #           curl -s -u "arpit.munet@canadapost.postescanada.ca:ATATT3xFfGF0FGni-JbIKveHH_peedPRhSShBjyJ_ITDDpElTxWTt8J23nyoT4tJZjkuw6mkpMGOUS0miyaG5-eXwD0uJAP9MlJkQ4WpazT4t3YFlRNO1ibm5VpE4FocYsbO7G-DjlnXib_pEenezve48zndGi5b-s7oanQNdz-fbY-b5wHNT44=225CB9F4"  \
 #             -X PUT -H "Content-Type: application/json" \
 #             -d '{
