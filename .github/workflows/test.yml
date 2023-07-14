@@ -10,22 +10,25 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Update TR id in Jira
-        id: updateTR
-        run: |
-          path=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | xargs)
-          MYFILE=${path%%/*}
-          str1=${COMMITS_MSG%%]*}
-          jiraid=${str1##*[}
-          echo $jiraid
-          echo "folder=$MYFILE" >> "$GITHUB_OUTPUT"
-          # echo "JID=$jiraid" >> "$GITHUB_OUTPUT"
-      - name: Fetch JIRA ID
-        env:
-            # github URL to list commits
-          COMMITS_MSG: ${{ github.event.head_commit.message }}
-        id: getID
-        run: |
-         str1=${COMMITS_MSG%%]*}
-         echo "JID=${str1##*[}" >> "$GITHUB_OUTPUT" 
+    - name: Run Test Case
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+    - id: getFolder
+      run: |
+        path=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | xargs)
+        MYFILE=${path%%/*}
+        str1=${COMMITS_MSG%%]*}
+        jiraid=${str1##*[}
+        echo $jiraid
+        echo "folder=$MYFILE" >> "$GITHUB_OUTPUT"
+        # echo "JID=$jiraid" >> "$GITHUB_OUTPUT"
+    - name: Fetch JIRA ID
+      env:
+          # github URL to list commits
+        COMMITS_MSG: ${{ github.event.head_commit.message }}
+      id: getID
+      run: |
+       str1=${COMMITS_MSG%%]*}
+       echo "JID=${str1##*[}" >> "$GITHUB_OUTPUT"   
 
