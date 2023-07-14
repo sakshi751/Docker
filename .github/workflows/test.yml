@@ -34,4 +34,13 @@ jobs:
        str1=${COMMITS_MSG%%]*}
        echo "JID=${str1##*[}" >> "$GITHUB_OUTPUT"   
        echo ${str1##*[}
+       path=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | xargs)
+          name="${path// /^}"
+          fileName=$name
+          MYFILE=${fileName%%/*}
+          echo $MYFILE
+          MYSAMPLE=${MYFILE%.*}
+          REPOS=$MYSAMPLE
+          DBNAME="${REPOS//^/ }"
+          echo $DBNAME
 
