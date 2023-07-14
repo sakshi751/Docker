@@ -20,4 +20,12 @@ jobs:
           echo $jiraid
           echo "folder=$MYFILE" >> "$GITHUB_OUTPUT"
           # echo "JID=$jiraid" >> "$GITHUB_OUTPUT"
+      - name: Fetch JIRA ID
+        env:
+            # github URL to list commits
+          COMMITS_MSG: ${{ github.event.head_commit.message }}
+        id: getID
+        run: |
+         str1=${COMMITS_MSG%%]*}
+         echo "JID=${str1##*[}" >> "$GITHUB_OUTPUT" 
 
