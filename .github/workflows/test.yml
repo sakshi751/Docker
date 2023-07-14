@@ -1,4 +1,4 @@
-name: Extract JSON Details
+name: Extract JSON Detail
 
 on:
   push:
