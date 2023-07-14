@@ -42,4 +42,6 @@ jobs:
           REPOS=$MYSAMPLE
           DBNAME="${REPOS//^/ }"
           echo $DBNAME
+          iflow_name="${DBNAME// /_}"
+          echo $iflow_name
 
