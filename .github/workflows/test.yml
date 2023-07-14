@@ -2,8 +2,8 @@ name: Extract JSON Details
 
 on:
   push:
-    branches:
-      - main
+   paths-ignore:
+      - '.github/**'
 
 jobs:
   extractDetails:
