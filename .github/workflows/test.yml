@@ -13,12 +13,11 @@ jobs:
       - name: Update TR id in Jira
         id: updateTR
         run: |
-             curl -s -u "${{ secrets.JIRA_PAT_ARPIT }}:${{ secrets.JIRA_USERNAME_ARPIT }}" \
-             -X GET 'https://cpg-gpc-xt-hub.atlassian.net/rest/api/3/issue/DEV-30' | \
-             jq --arg newvalue "11111" \
-             '.fields.customfield_10228 += ",\($newvalue)"' | \
-             curl -s -u "${{ secrets.JIRA_PAT_ARPIT }}:${{ secrets.JIRA_USERNAME_ARPIT }}" \
-             -X PUT -H "Content-Type: application/json" \
-             -d @- 'https://cpg-gpc-xt-hub.atlassian.net/rest/api/3/issue/DEV-30'
-            # file=$(curl --write-out "%{http_code}" -X PUT 'https://cpg-gpc-xt-hub.atlassian.net/rest/api/2/issue/DEV-30' -H 'Accept: application/json' -H 'Content-Type: application/json' -d ${{toJSON(env.req)}} --user "${{ secrets.JIRA_PAT_ARPIT }}:${{ secrets.JIRA_USERNAME_ARPIT }}")
-            # echo "$file"
+          path=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | xargs)
+          MYFILE=${path%%/*}
+          str1=${COMMITS_MSG%%]*}
+          jiraid=${str1##*[}
+          echo $jiraid
+          echo "folder=$MYFILE" >> "$GITHUB_OUTPUT"
+          # echo "JID=$jiraid" >> "$GITHUB_OUTPUT"
+
