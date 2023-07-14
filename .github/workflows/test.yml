@@ -17,10 +17,12 @@ jobs:
     - id: getFolder
       run: |
         path=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | xargs)
+        echo $path
         MYFILE=${path%%/*}
         str1=${COMMITS_MSG%%]*}
         jiraid=${str1##*[}
         echo $jiraid
+        echo $MYFILE
         echo "folder=$MYFILE" >> "$GITHUB_OUTPUT"
         # echo "JID=$jiraid" >> "$GITHUB_OUTPUT"
     - name: Fetch JIRA ID
@@ -31,4 +33,5 @@ jobs:
       run: |
        str1=${COMMITS_MSG%%]*}
        echo "JID=${str1##*[}" >> "$GITHUB_OUTPUT"   
+       echo ${str1##*[}
 
