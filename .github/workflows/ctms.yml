@@ -12,11 +12,11 @@ jobs:
       - name: Create Token
         id: runPostman
         run: |
-          echo "res=$(curl --request GET --url "https://development-dn6yj4ti.authentication.ca10.hana.ondemand.com/oauth/token?grant_type=client_credentials" -u "sb-e0a3d792-09fd-4411!b805|cas-uaa-prod!b58:J+neLeyi7wqBcEPXM1hl4CqAkTE=" --header 'content-type: application/json')" >> $GITHUB_OUTPUT
+          echo "res=$(curl --request GET --url "https://development-dn6yj4ti.authentication.ca10.hana.ondemand.com/oauth/token?grant_type=client_credentials" -u "sb-e0a3d792-09fd-42b7-8a2c-e4213af53411!b805|cas-uaa-prod!b58:J+neLeyi7wqBcEPXM1hl4CqAkTE=" --header 'content-type: application/json')" >> $GITHUB_OUTPUT
  
       - name: Check if token creation succeeded
         run: |
-         if ! gh auth login --with-token curl GET --url "https://development-dn6yj4ti.authentication.ca10.hana.ondemand.com/oauth/token?grant_type=client_credentials" -u "sb-e0a3d792-09fd-4411!b805|cas-uaa-prod!b58:J+neLeyi7wqBcEPXM1hl4CqAkTE=" --header 'content-type: application/json'; then
+         if ! gh auth login --with-token curl GET --url "https://development-dn6yj4ti.authentication.ca10.hana.ondemand.com/oauth/token?grant_type=client_credentials" -u "sb-e0a3d792-09fd-42b7-8a2c-e4213af53411!b805|cas-uaa-prod!b58:J+neLeyi7wqBcEPXM1hl4CqAkTE=" --header 'content-type: application/json'; then
             echo "Token creation failed: Bad credentials or insufficient permissions."
             exit 1
                 
