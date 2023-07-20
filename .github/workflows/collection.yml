@@ -14,7 +14,7 @@ jobs:
     - name: Docker for newma
       id: myRequest
       run: |
-        docker run -v $PWD:/etc/newman -t postman/newman:latest run "./test/postman_collection_failure.json"
+        docker run -v $PWD:/etc/newman -t postman/newman:latest run "./test/new_flow.json"
       continue-on-error: true
     - name: Check on failures     
       run: 
