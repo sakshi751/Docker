@@ -16,11 +16,12 @@ jobs:
  
       - name: Check if token creation succeeded
         run: |
-          if [ $? -eq 0 ]; then
-            echo "Token creation succeeded!"
+         if grep -q "unauthorized.*Bad credentials" <<< "$(cat $GITHUB_EVENT_PATH)"; then
+              echo "Token creation failed: Bad credentials or insufficient permissions."
+              exit 1
+            
           else
-            echo "Token creation failed!"
-            exit 1
+            echo "Token creation done!"
           fi
       - name: Show Token
         run: |
