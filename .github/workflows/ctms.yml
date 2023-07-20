@@ -16,7 +16,7 @@ jobs:
       - name: Check Token Creation Result
         run: |
           response=$(echo $response | jq -r '.access_token') # Assuming 'jq' is installed to parse JSON
-          echo $response
+          echo ${{ steps.runPostman.outputs.res}}
           if ${{ steps.runPostman.outputs.res == 'null' }}; then
             echo "Token creation succeeded!"
             echo "Token: ${{steps.runPostman.outputs.res}}"
