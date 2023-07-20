@@ -14,7 +14,9 @@ jobs:
     - name: Docker for newma
       id: myRequest
       run: |
-         folder_path=$PWD:/etc/newman/Docker/test
+        folder_path="$GITHUB_WORKSPACE/test"
+          echo "Folder path: $folder_path"
+         #folder_path=$PWD:/etc/newman/Docker/test
          file_name=new_flow.json
          if [ -e "$folder_path/$file_name" ]; then
             echo "File exists!"
