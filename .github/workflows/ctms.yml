@@ -15,9 +15,8 @@ jobs:
           echo "res=$(curl --request GET --url "https://development-dn6yj4ti.authentication.ca10.hana.ondemand.com/oauth/token?grant_type=client_credentials" -u "sb-e0a3d794213af53411!b805|cas-uaa-prod!b58:J+neLeyi7wqBcEPXM1hl4CqAkTE=" --header 'content-type: application/json')" >> $GITHUB_OUTPUT
       - name: Check Token Creation Result
         run: |
-          response=$(echo $response | jq -r '.access_token') # Assuming 'jq' is installed to parse JSON
-          echo ${{ steps.runPostman.outputs.res}}
-          if ${{ steps.runPostman.outputs.res == 'null' }}; then
+         
+          if echo "${{steps.runPostman.outputs.res}}" | grep -q 'error'; then
             echo "Token creation succeeded!"
             echo "Token: ${{steps.runPostman.outputs.res}}"
             # Proceed with other actions using the token
