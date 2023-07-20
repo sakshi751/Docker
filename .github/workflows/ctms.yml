@@ -16,6 +16,7 @@ jobs:
  
       - name: Check on failures  
         if: ${{ steps.runPostman.outcome != 'success' }}
+        run: |
           echo 'failedd'
           exit 1
       - name: Show Token
