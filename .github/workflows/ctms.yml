@@ -19,7 +19,9 @@ jobs:
         id: casDat
         run: |
           echo "res=$(curl --request GET --header 'authorization: Bearer ${{ fromJson(steps.runPostman.outputs.res).access_token }}'  --url "https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/contentResource" --header 'Accept: application/json')"  >> $GITHUB_OUTPUT
-     
+      - name: det
+        run: |
+          echo ${{steps.casDat.outputs.res}}
      
 #       - name: Access JSON data
 #         id: access
