@@ -14,7 +14,7 @@ jobs:
     - name: Docker for newma
       id: myRequest
       run: |
-        folder_path="$GITHUB_WORKSPACE/test"
+        folder_path="$GITHUB_WORKSPACE/tes"
           echo "Folder path: $folder_path"
          #folder_path=$PWD:/etc/newman/Docker/test
          file_name=new_flow.json
