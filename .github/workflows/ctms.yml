@@ -10,10 +10,14 @@ jobs:
         with:
           fetch-depth: 0  
       - name: Create Token
-        id: myRequest
+        id: runPostman
         run: |
           echo "res=$(curl --request GET --url "https://development-dn6yj4ti.authentication.ca10.hana.ondemand.com/oauth/token?grant_type=client_credentials" -u "sb-e0a3d792-09fd-47-8a2c-e4213af53411!b805|cas-uaa-prod!b58:J+neLeyi7wqBcEPXM1hl4CqAkTE=" --header 'content-type: application/json')" >> $GITHUB_OUTPUT
  
+      - name: Check on failures  
+        if: ${{ steps.runPostman.outcome != 'success' }}
+          echo 'failedd'
+          exit 1
       - name: Show Token
         run: |
           echo ${{ steps.myRequest.outputs.res}}
@@ -22,85 +26,86 @@ jobs:
         id: casData
         run: |
           echo "res=$(curl --request GET --header 'authorization: Bearer ${{ fromJson(steps.myRequest.outputs.res).access_token }}'  --url "https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/contentResources" --header 'Accept: application/json')"  >> $GITHUB_OUTPUT
-               
-      - name: Access JSON data
-        id: access
-        run: |
-          echo '{"count":124,"contentResources":[{"id":"IflowForDevOpsTest","resourceID":"f3b1dc1cd5c34ce9a8a8b027d0edc418","type":"CloudIntegration","name":"Iflow For DevOps Test","subType":"package","version":"","title":"Test Iflow created by DevOps team for pipeline","vendor":"","description":"<p></p>","contentUrl":null,"componentQueryPattern":null,"components":[{"id":"Trial_Integration_Flow","name":"Trial Integration Flow","type":"Integration Flow","version":"1.0.1","additionalProperties":null,"exportable":false}],"dependencies":[],"additionalProperties":{"ExportMode":"ZIP"}},{"id":"IPOSTTest","resourceID":"0217163f50b643d3adaeef5d891cee96","type":"CloudIntegration","name":"IPOST Test","subType":"package","version":"","title":"IPOSTTest","vendor":"","description":"<p></p>","contentUrl":null,"componentQueryPattern":null,"components":[{"id":"IPost_iFlow","name":"IPost iFlow","type":"Integration Flow","version":"Active","additionalProperties":null,"exportable":false}],"dependencies":[],"additionalProperties":{"ExportMode":"ZIP"}}]}' >> json_data.json
-      - name: Extract Details
-        id: extract
-        run: |
-         json_data=$(cat json_data.json)
-          resource_ID=$(echo "$json_data" | jq -r '.contentResources[] | select(.name == "Iflow For DevOps Test") | .resourceID')
-          echo $resource_ID
-          data='{"package":"Iflow For DevOps Test","iflows":"Trial Integration Flow"}'
-          package=$(echo "$data" | jq -r '.package')
-          echo "$package"
-          iflows=$(echo "$data" | jq -r '.iflows')
-          echo "$iflows"
-          IFS=',' read -ra arr <<< "$iflows"
-          for item in "${arr[@]}"; do
-            val=$item
-            resourceID=$(echo "$json_data" | jq -r --arg package "$package" '.contentResources[] | select(.name == $package) | .resourceID')
-            package_name=$(echo "$json_data" | jq -r --arg package "$package" '.contentResources[] | select(.name == $package) | .name')
-            package_type=$(echo "$json_data" | jq -r --arg package "$package" '.contentResources[] | select(.name == $package) | .type')
-            package_subType=$(echo "$json_data" | jq -r --arg package "$package" '.contentResources[] | select(.name == $package) | .subType')
-            package_id=$(echo "$json_data" | jq -r --arg package "$package" '.contentResources[] | select(.name == $package) | .id')
-            package_version=$(echo "$json_data" | jq -r --arg package "$package" '.contentResources[] | select(.name == $package) | .version')
+     
+     
+#       - name: Access JSON data
+#         id: access
+#         run: |
+#           echo '{"count":124,"contentResources":[{"id":"IflowForDevOpsTest","resourceID":"f3b1dc1cd5c34ce9a8a8b027d0edc418","type":"CloudIntegration","name":"Iflow For DevOps Test","subType":"package","version":"","title":"Test Iflow created by DevOps team for pipeline","vendor":"","description":"<p></p>","contentUrl":null,"componentQueryPattern":null,"components":[{"id":"Trial_Integration_Flow","name":"Trial Integration Flow","type":"Integration Flow","version":"1.0.1","additionalProperties":null,"exportable":false}],"dependencies":[],"additionalProperties":{"ExportMode":"ZIP"}},{"id":"IPOSTTest","resourceID":"0217163f50b643d3adaeef5d891cee96","type":"CloudIntegration","name":"IPOST Test","subType":"package","version":"","title":"IPOSTTest","vendor":"","description":"<p></p>","contentUrl":null,"componentQueryPattern":null,"components":[{"id":"IPost_iFlow","name":"IPost iFlow","type":"Integration Flow","version":"Active","additionalProperties":null,"exportable":false}],"dependencies":[],"additionalProperties":{"ExportMode":"ZIP"}}]}' >> json_data.json
+#       - name: Extract Details
+#         id: extract
+#         run: |
+#          json_data=$(cat json_data.json)
+#           resource_ID=$(echo "$json_data" | jq -r '.contentResources[] | select(.name == "Iflow For DevOps Test") | .resourceID')
+#           echo $resource_ID
+#           data='{"package":"Iflow For DevOps Test","iflows":"Trial Integration Flow"}'
+#           package=$(echo "$data" | jq -r '.package')
+#           echo "$package"
+#           iflows=$(echo "$data" | jq -r '.iflows')
+#           echo "$iflows"
+#           IFS=',' read -ra arr <<< "$iflows"
+#           for item in "${arr[@]}"; do
+#             val=$item
+#             resourceID=$(echo "$json_data" | jq -r --arg package "$package" '.contentResources[] | select(.name == $package) | .resourceID')
+#             package_name=$(echo "$json_data" | jq -r --arg package "$package" '.contentResources[] | select(.name == $package) | .name')
+#             package_type=$(echo "$json_data" | jq -r --arg package "$package" '.contentResources[] | select(.name == $package) | .type')
+#             package_subType=$(echo "$json_data" | jq -r --arg package "$package" '.contentResources[] | select(.name == $package) | .subType')
+#             package_id=$(echo "$json_data" | jq -r --arg package "$package" '.contentResources[] | select(.name == $package) | .id')
+#             package_version=$(echo "$json_data" | jq -r --arg package "$package" '.contentResources[] | select(.name == $package) | .version')
        
-           component_id=$(echo "$json_data" | jq -r --arg val "$val" '.contentResources[].components[] | select(.name == $val) | .id')
-           component_type=$(echo "$json_data" | jq -r --arg val "$val" '.contentResources[].components[] | select(.name == $val) | .type')
-           component_name=$item
-           component_isExportable=$(echo "$json_data" | jq -r --arg val "$val" '.contentResources[].components[] | select(.name == $val) | .isExportable')
-           payload='{"id":"com.sap.capex","version":"1.0.0","requestor":"Content Agent UI","exportMode":"TransportManagementService","exportMediaType":"MTAR","description":"test1","contentResources":[{"resourceID":"'"$resourceID"'","name":"'"$package_name"'","type":"'"$package_type"'","subType":"'"$package_subType"'","id":"'"$package_id"'","version":"'"$package_version"'","components":[{"id":"'"$component_id"'","name":"'"$component_name"'","type":"'"$component_type"'","isExportable":"'"$component_isExportable"'"}]}]}'
-           echo "$payload"
-           echo "testpayload=$payload" >> "$GITHUB_OUTPUT"
-          done
+#            component_id=$(echo "$json_data" | jq -r --arg val "$val" '.contentResources[].components[] | select(.name == $val) | .id')
+#            component_type=$(echo "$json_data" | jq -r --arg val "$val" '.contentResources[].components[] | select(.name == $val) | .type')
+#            component_name=$item
+#            component_isExportable=$(echo "$json_data" | jq -r --arg val "$val" '.contentResources[].components[] | select(.name == $val) | .isExportable')
+#            payload='{"id":"com.sap.capex","version":"1.0.0","requestor":"Content Agent UI","exportMode":"TransportManagementService","exportMediaType":"MTAR","description":"test1","contentResources":[{"resourceID":"'"$resourceID"'","name":"'"$package_name"'","type":"'"$package_type"'","subType":"'"$package_subType"'","id":"'"$package_id"'","version":"'"$package_version"'","components":[{"id":"'"$component_id"'","name":"'"$component_name"'","type":"'"$component_type"'","isExportable":"'"$component_isExportable"'"}]}]}'
+#            echo "$payload"
+#            echo "testpayload=$payload" >> "$GITHUB_OUTPUT"
+#           done
           
-      - name: Get Activity ID
-        id: activityId
-        run: |
-               response=$(curl -i -X POST 'https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/contentResources/export' --header 'authorization: Bearer ${{ fromJson(steps.myRequest.outputs.res).access_token }}'  -H 'Accept: application/json' -H 'Content-Type: application/json' -d ${{toJSON( steps.extract.outputs.testpayload )}} -u "sb-e0a3d792-09fd-42b7-8a2c-e4213af53411!b805|cas-uaa-prod!b58:J+neLeyi7wqBcEPXM1hl4CqAkTE=")
-               json_response=$(echo "$response" | awk '/^{/,/}$/ { print }')
-               echo $json_response
-               echo "actID=$json_response" >> "$GITHUB_OUTPUT"
+#       - name: Get Activity ID
+#         id: activityId
+#         run: |
+#                response=$(curl -i -X POST 'https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/contentResources/export' --header 'authorization: Bearer ${{ fromJson(steps.myRequest.outputs.res).access_token }}'  -H 'Accept: application/json' -H 'Content-Type: application/json' -d ${{toJSON( steps.extract.outputs.testpayload )}} -u "sb-e0a3d792-09fd-42b7-8a2c-e4213af53411!b805|cas-uaa-prod!b58:J+neLeyi7wqBcEPXM1hl4CqAkTE=")
+#                json_response=$(echo "$response" | awk '/^{/,/}$/ { print }')
+#                echo $json_response
+#                echo "actID=$json_response" >> "$GITHUB_OUTPUT"
       
-      - name: Update Status
-        id: myReq
-        uses: fjogeleit/http-request-action@v1
-        with:
-           url: ${{ format('{0}/{1}/{2}', 'https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/operations', '1df52417-10d4-11ee-868a-eeee0a846208', 'config')}}
-           method: 'GET'
-           bearerToken: ${{ fromJson(steps.myRequest.outputs.res).access_token }}
-      - name: Get TR Id
-        id: TRid
-        run: |
-           echo ${{steps.activityId.outputs.actID}}
-           out=${{ fromJson(steps.activityId.outputs.actID).activityID }}
-           echo $out
-           echo "outer=$out" >> "$GITHUB_OUTPUT"
-           url=${{ format('{0}/{1}/{2}', 'https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/operations', fromJson(steps.activityId.outputs.actID).activityID, 'config')}}
-           URL=$url
-           echo $URL
-           echo "testpayload=$URL" >> "$GITHUB_OUTPUT"
+#       - name: Update Status
+#         id: myReq
+#         uses: fjogeleit/http-request-action@v1
+#         with:
+#            url: ${{ format('{0}/{1}/{2}', 'https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/operations', '1df52417-10d4-11ee-868a-eeee0a846208', 'config')}}
+#            method: 'GET'
+#            bearerToken: ${{ fromJson(steps.myRequest.outputs.res).access_token }}
+#       - name: Get TR Id
+#         id: TRid
+#         run: |
+#            echo ${{steps.activityId.outputs.actID}}
+#            out=${{ fromJson(steps.activityId.outputs.actID).activityID }}
+#            echo $out
+#            echo "outer=$out" >> "$GITHUB_OUTPUT"
+#            url=${{ format('{0}/{1}/{2}', 'https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/operations', fromJson(steps.activityId.outputs.actID).activityID, 'config')}}
+#            URL=$url
+#            echo $URL
+#            echo "testpayload=$URL" >> "$GITHUB_OUTPUT"
           
-      - name: echo tr
-        id: tr
-        run: |
-           sleep 5
-           res=$(curl -i -X GET "https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/operations/${{steps.TRid.outputs.outer}}/config" --header 'authorization: Bearer ${{ fromJson(steps.myRequest.outputs.res).access_token }}' -H 'Accept: application/json' -u "sb-e0a3d792-09fd-42b7-8a2c-e4213af53411!b805|cas-uaa-prod!b58:J+neLeyi7wqBcEPXM1hl4CqAkTE=")
-           json_response=$(echo "$res" | awk '/^{/,/}$/ { print }')
-           echo "$json_response"
-           transportRequestID=$(echo "$json_response" | jq -r '.transportRequestID')
-           echo "transportid=$transportRequestID" >> "$GITHUB_OUTPUT"
-           echo $transportRequestID
-         # echo ${{ fromJson(steps.TRid.outputs.testpayload).transportRequestID }}
+#       - name: echo tr
+#         id: tr
+#         run: |
+#            sleep 5
+#            res=$(curl -i -X GET "https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/operations/${{steps.TRid.outputs.outer}}/config" --header 'authorization: Bearer ${{ fromJson(steps.myRequest.outputs.res).access_token }}' -H 'Accept: application/json' -u "sb-e0a3d792-09fd-42b7-8a2c-e4213af53411!b805|cas-uaa-prod!b58:J+neLeyi7wqBcEPXM1hl4CqAkTE=")
+#            json_response=$(echo "$res" | awk '/^{/,/}$/ { print }')
+#            echo "$json_response"
+#            transportRequestID=$(echo "$json_response" | jq -r '.transportRequestID')
+#            echo "transportid=$transportRequestID" >> "$GITHUB_OUTPUT"
+#            echo $transportRequestID
+#          # echo ${{ fromJson(steps.TRid.outputs.testpayload).transportRequestID }}
          
-      - name: Update TR id in Jira
-        id: updateTR
-        env:
-           req: '{"update": {"customfield_10228": [{"set": "${{ steps.tr.outputs.transportid}}"}],"comment": [{"add": {"body": "TR ID is created"}}]}}'
+#       - name: Update TR id in Jira
+#         id: updateTR
+#         env:
+#            req: '{"update": {"customfield_10228": [{"set": "${{ steps.tr.outputs.transportid}}"}],"comment": [{"add": {"body": "TR ID is created"}}]}}'
 
-        run: |
-             file=$(curl --write-out "%{http_code}" -X PUT 'https://cpg-gpc-xt-hub.atlassian.net/rest/api/2/issue/DEV-30' -H 'Accept: application/json' -H 'Content-Type: application/json' -d ${{toJSON(env.req)}} --user "arpit.munet@canadapost.postescanada.ca:ATATT3xFfGF0B7XLKDLU9Tpt8ah0uTTXoW-fGERs6Ql27I8AViKJ0G5N6utBLFx-TI0Z4bLJiL0t2dCfsGMeKyzd616sDQgQidsHE6jceTr_xU_IsH6NqHU4yWn_i16dCU94vrw4qlxoON_4ddbKC-UqFLH6FghM9hG9NxAmMO0gIhXyfhpdSUA=AA53A3AA")
-             echo "$file"
+#         run: |
+#              file=$(curl --write-out "%{http_code}" -X PUT 'https://cpg-gpc-xt-hub.atlassian.net/rest/api/2/issue/DEV-30' -H 'Accept: application/json' -H 'Content-Type: application/json' -d ${{toJSON(env.req)}} --user "arpit.munet@canadapost.postescanada.ca:ATATT3xFfGF0B7XLKDLU9Tpt8ah0uTTXoW-fGERs6Ql27I8AViKJ0G5N6utBLFx-TI0Z4bLJiL0t2dCfsGMeKyzd616sDQgQidsHE6jceTr_xU_IsH6NqHU4yWn_i16dCU94vrw4qlxoON_4ddbKC-UqFLH6FghM9hG9NxAmMO0gIhXyfhpdSUA=AA53A3AA")
+#              echo "$file"
