@@ -13,29 +13,12 @@ jobs:
         id: runPostman
         run: |
           echo "res=$(curl --request GET --url "https://development-dn6yj4ti.authentication.ca10.hana.ondemand.com/oauth/token?grant_type=client_credentials" -u "sb-e0a3d792-09fd-42b7-8a2c-e4213af53411!b805|cas-uaa-prod!b58:J+neLeyi7wqBcEPXM1hl4CqAkTE=")" >> $GITHUB_OUTPUT
-      - name: Check Token Creation Result
-        run: |
-         
-          if echo "${{steps.runPostman.outputs.res}}" | grep -q 'error'; then
-            echo "Token creation succeeded!"
-            echo "Token: ${{steps.runPostman.outputs.res}}"
-            # Proceed with other actions using the token
-          else
-            echo "Token creation failed!"
-            exit 1
-          fi
-        env:
-          response: ${{ steps.runPostman.outputs.res }}
      
-      - name: Show Token
-        run: |
-          echo ${{ steps.runPostman.outputs.res}}
-          echo ${{ steps.runPostman.outputs.response }}
           
       - name: CAS
         id: casData
         run: |
-          echo "res=$(curl --request GET --header 'authorization: Bearer ${{ fromJson(steps.runPostman.outputs.res).access_token }}'  --url "https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/contentResources" --header 'Accept: application/json')"  >> $GITHUB_OUTPUT
+          echo "res=$(curl --request GET --header 'authorization: Bearer ${{ fromJson(steps.runPostman.outputs.res).access_token }}'  --url "https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/contentResource" --header 'Accept: application/json')"  >> $GITHUB_OUTPUT
      
      
 #       - name: Access JSON data
