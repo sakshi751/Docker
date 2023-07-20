@@ -24,12 +24,12 @@ jobs:
           fi
       - name: Show Token
         run: |
-          echo ${{ steps.myRequest.outputs.res}}
+          echo ${{ steps.runPostman.outputs.res}}
           
       - name: CAS
         id: casData
         run: |
-          echo "res=$(curl --request GET --header 'authorization: Bearer ${{ fromJson(steps.myRequest.outputs.res).access_token }}'  --url "https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/contentResources" --header 'Accept: application/json')"  >> $GITHUB_OUTPUT
+          echo "res=$(curl --request GET --header 'authorization: Bearer ${{ fromJson(steps.runPostman.outputs.res).access_token }}'  --url "https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/contentResources" --header 'Accept: application/json')"  >> $GITHUB_OUTPUT
      
      
 #       - name: Access JSON data
