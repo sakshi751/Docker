@@ -22,6 +22,7 @@ jobs:
       - name: det
         run: |
           echo ${{steps.casDat.outcome }}
+          echo ${{steps.casDat.outputs.res}}
      
 #       - name: Access JSON data
 #         id: access
