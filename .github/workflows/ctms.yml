@@ -16,7 +16,7 @@ jobs:
       - name: Check Token Creation Result
         run: |
           response=$(echo $response | jq -r '.access_token') # Assuming 'jq' is installed to parse JSON
-          if [ -n "$response" ]; then
+          if [ $response != null]; then
             echo "Token creation succeeded!"
             echo "Token: $response"
             # Proceed with other actions using the token
