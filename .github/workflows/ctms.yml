@@ -17,7 +17,7 @@ jobs:
         run: |
           response=$(echo $response | jq -r '.access_token') # Assuming 'jq' is installed to parse JSON
           echo $response
-          if [ $response == null]; then
+          if [ $response == 'null']; then
             echo "Token creation succeeded!"
             echo "Token: $response"
             # Proceed with other actions using the token
