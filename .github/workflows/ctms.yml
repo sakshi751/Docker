@@ -19,10 +19,11 @@ jobs:
         id: casDat
         run: |
           echo "res=$(curl --request GET --header 'authorization: Bearer ${{ fromJson(steps.runPostman.outputs.res).access_token }}'  --url "https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/contentResourc" --header 'Accept: application/json')"  >> $GITHUB_OUTPUT
-      - name: detail
-        if: ${{steps.casDat.outputs.res contains 'error'}}
-        run: |
-              echo 'error'
+          if echo "$res" | grep -q 'error'; then
+            echo "String contains 'error'."
+          else
+            echo "String does not contain 'error'."
+          fi
         
      
 #       - name: Access JSON data
