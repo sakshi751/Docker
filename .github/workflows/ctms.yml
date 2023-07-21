@@ -18,13 +18,9 @@ jobs:
       - name: CAS
         id: casDat
         run: |
-          echo "res=$(curl -i -X GET --header 'authorization: Bearer ${{ fromJson(steps.runPostman.outputs.res).access_token }}'  --url "https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/contentResources" --header 'Accept: application/json')"
-          
-          if echo "$res" | grep -q 'error'; then
-            echo "String contains 'error'."
-          else
-            echo "String does not contain 'error'."
-          fi
+          res=$(curl -i -X GET --header 'authorization: Bearer ${{ fromJson(steps.runPostman.outputs.res).access_token }}'  --url "https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/contentResources" --header 'Accept: application/json')
+          status=$(echo "$res" | grep HTTP/1.1 | awk '{print $2}')
+          $status
         
      
 #       - name: Access JSON data
