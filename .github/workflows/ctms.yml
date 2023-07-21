@@ -20,7 +20,7 @@ jobs:
         run: |
           echo "res=$(curl --request GET --header 'authorization: Bearer ${{ fromJson(steps.runPostman.outputs.res).access_token }}'  --url "https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/contentResourc" --header 'Accept: application/json')"  >> $GITHUB_OUTPUT
       - name: detail
-        if: ${{steps.casDat.outputs.res | grep -q 'error' != ' ' }}
+        if: ${{steps.casDat.outputs.res contains 'error'}}
         run: |
               echo 'error'
         
