@@ -20,7 +20,7 @@ jobs:
         run: |
           res=$(curl -i -X GET --header 'authorization: Bearer ${{ fromJson(steps.runPostman.outputs.res).access_token }}'  --url "https://content-agent-engine.cfapps.ca10.hana.ondemand.com/v1/contentResources" --header 'Accept: application/json')
           status=$(echo "$res" | grep HTTP/1.1 | awk '{print $2}')
-          $status
+          echo $status
         
      
 #       - name: Access JSON data
