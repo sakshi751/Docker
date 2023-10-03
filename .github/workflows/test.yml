@@ -15,8 +15,7 @@ jobs:
         uses: citizen-of-planet-earth/cf-cli-action@v2
         with:
           cf_api: https://api.cf.ca10.hana.ondemand.com
-          cf_username: Arpit.Munet@canadapost.postescanada.ca
-          cf_password: Sarita@134
+          cf_username: Sakshi.Khandelwal@canadapost.postescanada.ca
+          cf_password: StaraPach@179
           cf_org: CPEA-Innovapost Inc_development-dn6yj4ti
           cf_space: devspace
-          command: login
