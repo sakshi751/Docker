@@ -1,47 +1,21 @@
-name: Extract JSON Details
+name: Deploy to Cloud Foundry
 
 on:
-  push:
-   paths-ignore:
-      - '.github/**'
+  push
 
 jobs:
-  extractDetails:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Run Test Case
-      uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - id: getFolder
-      run: |
-        path=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | xargs)
-        echo $path
-        MYFILE=${path%%/*}
-        str1=${COMMITS_MSG%%]*}
-        jiraid=${str1##*[}
-        echo $jiraid
-        echo $MYFILE
-        echo "folder=$MYFILE" >> "$GITHUB_OUTPUT"
-        # echo "JID=$jiraid" >> "$GITHUB_OUTPUT"
-    - name: Fetch JIRA ID
-      env:
-          # github URL to list commits
-        COMMITS_MSG: ${{ github.event.head_commit.message }}
-      id: getID
-      run: |
-       str1=${COMMITS_MSG%%]*}
-       echo "JID=${str1##*[}" >> "$GITHUB_OUTPUT"   
-       echo ${str1##*[}
-        path=$(git diff-tree --no-commit-id --name-only -r ${{ github.sha }} | xargs)
-          name="${path// /^}"
-          fileName=$name
-          MYFILE=${fileName##*/}
-          MYSAMPLE=${MYFILE%.*}
-          REPOS=$MYSAMPLE
-          DBNAME="${REPOS//^/ }"
-          echo $DBNAME
-          iflow_name="${DBNAME// /_}"
-          echo $iflow_name
+      - name: Checkout code
+        uses: actions/checkout@v2
 
+      - name: Set up Cloud Foundry CLI
+        uses: cloudfoundry/github-action@v3
+        with:
+          cf_api: https://api.cf.ca10.hana.ondemand.com
+          cf_username: Arpit.Munet@canadapost.postescanada.ca
+          cf_password: Sarita@134
+          cf_org: CPEA-Innovapost Inc_development-dn6yj4ti
+          cf_space: devspace
