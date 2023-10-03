@@ -19,3 +19,4 @@ jobs:
           cf_password: Sarita@134
           cf_org: CPEA-Innovapost Inc_development-dn6yj4ti
           cf_space: devspace
+          command: cf login
