@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Set up Cloud Foundry CLI
-        uses: cloudfoundry/github-action@v3
+        uses: citizen-of-planet-earth/cf-cli-action@v2
         with:
           cf_api: https://api.cf.ca10.hana.ondemand.com
           cf_username: Arpit.Munet@canadapost.postescanada.ca
